@@ -1,57 +1,73 @@
-# rtl8812au
+### 8812au ( 8812au.ko )
 
-## Realtek 8812AU driver version 5.6.4.2
+### Linux Driver for the RealTek RTL8812AU Chipset.
 
-Only supports 8812AU chipset.
+- Driver Version: 5.6.4.2 (Realtek)
+- Updates from the Linux community
 
-Works fine with 5.8.rc3 kernel. Source now builds with no warnings or errors.
+### Supported Kernels:
 
-Added (cosmeticly edited) original Realtek_Changelog.txt, this README.md and dkms.conf.
+- Tested on kernels 5.4 and 5.8
 
-Added device USB IDs, sorted by ID number.
-Added regdb files.
+### Tested Linux Distributions:
 
-Removed LED control, which was added for driver version 5.2.20
+Kernel 5.4:
 
-### Building
+- Mint 20		( https://linuxmint.com/ )
+- Ubuntu 20.04	( https://ubuntu.com/    )
+- Mint 19.3
+- Ubuntu 18.04
 
-To build and install module manually:
-```sh
-$ make
-$ sudo make install
+Kernel 5.8
+
+- Ubuntu 20.10 Beta
+
+### Tested Hardware:
+
+-
+
+
+## Supported Devices:
+
+* Numerous products that are based on the supported chipset
+
+### DKMS:
+This driver can be installed using DKMS. DKMS is a system utility which will automatically recompile and install a kernel module when a new kernel is installed. To make use of DKMS, install the `dkms` package. On Debian (based) systems, such as Ubuntu and Mint, installation is accomplished like this:
+```
+$ sudo apt-get install dkms
 ```
 
-To use dkms install:
+### Installation of the Driver:
 
-```sh
-  (as root, or sudo) copy source folder contents to /usr/src/rtl8812au-5.6.4.2
+Note: The installation instructions I am providing are for the novice user. Experienced users are welcome to alter the installation to meet their needs.
+
+Go to `https://github.com/morrownr/8812au` for the latest version of the driver.
+
+Download the driver by clicking on the green `Code` button.
+
+Click on `Download ZIP` and save `8812au-master.zip` in your `Downloads` folder.
+
+Upzip `8812au-master.zip`. A folder called `8812au-master` should be created.
+
+Open a terminal and enter the folder called `8812au-master`:
+
+```
+$ cd ~/Downloads/8814au-master
 ```
 
-```sh
-$ sudo dkms add -m rtl8812au -v 5.6.4.2
-$ sudo dkms build -m rtl8812au -v 5.6.4.2
-$ sudo dkms install -m rtl8812au -v 5.6.4.2
+Execute the following command:
 ```
-
-To use dkms uninstall and remove:
-
-```sh
-$ sudo dkms remove -m rtl8812au -v 5.6.4.2 --all
+$ sudo ./dkms-install.sh
 ```
-
-### NetworkManager
-
-As others have noted, people using NetworkManager need to add this stanza to /etc/NetworkManager/NetworkManager.conf
-
-```sh
-  [device]
-  wifi.scan-rand-mac-address=no
 ```
+$ sudo reboot
+```
+### Removal of the Driver:
 
-### Regdb files
-
-If needed, copy the regulatory database files in regdb/ to /lib/firmware/
-
-```sh
-$ sudo cp ./regdb/* /lib/firmware/
+Open a terminal in the directory with the source code and execute the following command:
+```
+$ sudo ./dkms-remove.sh
+```
+```
+$ sudo reboot
 ```

@@ -9,17 +9,17 @@ fi
 
 if [ -d "/usr/lib/dkms" ]
 then
-	echo "dkms appears to be installed." 
+	echo "dkms appears to be installed."
 else
 	echo "dkms does not appear to be installed."
 	echo "Try: \"sudo apt install dkms\""
 	exit 1
 fi
 
-DRV_NAME=8812au
+DRV_NAME=rtl8812au
 DRV_VERSION=5.6.4.2
 
-echo "Copying driver to: /usr/src/${DRV_NAME}-${DRV_VERSION}" 
+echo "Copying driver to: /usr/src/${DRV_NAME}-${DRV_VERSION}"
 cp -r $(pwd) /usr/src/${DRV_NAME}-${DRV_VERSION}
 
 dkms add -m ${DRV_NAME} -v ${DRV_VERSION}

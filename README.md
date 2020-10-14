@@ -24,12 +24,12 @@ Kernel 5.8
 
 ### Tested Hardware:
 
--
+- Alfa - AWUS036ACH: amazon.com/dp/B00VEEBOPG
 
 
 ## Supported Devices:
 
-* Numerous products that are based on the supported chipset
+* Numerous products that are based on the supported chipset.
 
 ### DKMS:
 This driver can be installed using DKMS. DKMS is a system utility which will automatically recompile and install a kernel module when a new kernel is installed. To make use of DKMS, install the `dkms` package. On Debian (based) systems, such as Ubuntu and Mint, installation is accomplished like this:

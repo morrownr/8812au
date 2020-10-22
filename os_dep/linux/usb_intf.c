@@ -260,7 +260,7 @@ static struct usb_device_id rtw_usb_id_tbl[] = {
 	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0xC82A, 0xff, 0xff, 0xff), .driver_info = RTL8821C}, /* 8821CU */
 	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0xC82B, 0xff, 0xff, 0xff), .driver_info = RTL8821C}, /* 8821CU */
 	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0xC811, 0xff, 0xff, 0xff), .driver_info = RTL8821C}, /* 8811CU */
-	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0x8811, 0xff, 0xff, 0xff), .driver_info = RTL8821C}, /* 8811CU */	
+	{USB_DEVICE_AND_INTERFACE_INFO(USB_VENDER_ID_REALTEK, 0x8811, 0xff, 0xff, 0xff), .driver_info = RTL8821C}, /* 8811CU */
 	/*=== Customer ID ===*/
 #endif
 
@@ -558,7 +558,7 @@ static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf, const s
 		if (phost_endp) {
 			pendp_desc = &phost_endp->desc;
 
-			RTW_INFO("\nusb_endpoint_descriptor(%d):\n", i);
+			RTW_INFO("usb_endpoint_descriptor(%d):\n", i);
 			RTW_INFO("bLength=%x\n", pendp_desc->bLength);
 			RTW_INFO("bDescriptorType=%x\n", pendp_desc->bDescriptorType);
 			RTW_INFO("bEndpointAddress=%x\n", pendp_desc->bEndpointAddress);

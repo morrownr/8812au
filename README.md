@@ -151,7 +151,7 @@ $ sudo iw dev
 
 ### USB 3 Support
 
-I have included a file called `88x2bu.conf` that will be installed in `/etc/modeprob.d` by default.
+I have included a file called `8812au.conf` that will be installed in `/etc/modeprob.d` by default.
 
 `8812au.conf` passes a parameter to the driver during boot that turns USB 3 mode on.
 

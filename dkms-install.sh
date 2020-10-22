@@ -1,5 +1,8 @@
 #!/bin/bash
 
+DRV_NAME=rtl8812au
+DRV_VERSION=5.9.3.2
+
 if [ $EUID -ne 0 ]
 then
 	echo "You must run dkms-install.sh with superuser priviliges."
@@ -16,23 +19,44 @@ else
 	exit 1
 fi
 
-DRV_NAME=rtl8812au
-DRV_VERSION=5.9.3.2
-
+echo ""
 echo "Copying driver to: /usr/src/${DRV_NAME}-${DRV_VERSION}"
 cp -r $(pwd) /usr/src/${DRV_NAME}-${DRV_VERSION}
 
-dkms add -m ${DRV_NAME} -v ${DRV_VERSION}
-dkms build -m ${DRV_NAME} -v ${DRV_VERSION}
-dkms install -m ${DRV_NAME} -v ${DRV_VERSION}
+echo ""
+echo "Copying 8812au.conf to: /etc/modprobe.d"
+cp -r 8812au.conf /etc/modprobe.d
 
+dkms add -m ${DRV_NAME} -v ${DRV_VERSION}
 RESULT=$?
 
 if [ "$RESULT" != "0" ]
 then
-	echo "An error occurred while running dkms-install.sh."
+	echo "An error occurred while running: dkms add"
+	exit 1
 else
-	echo "dkms-install.sh was successful."
+	echo "dkms add was successful."
 fi
 
-exit $RESULT
+dkms build -m ${DRV_NAME} -v ${DRV_VERSION}
+RESULT=$?
+
+if [ "$RESULT" != "0" ]
+then
+	echo "An error occurred while running: dkms build"
+	exit 1
+else
+	echo "dkms build was successful."
+fi
+
+dkms install -m ${DRV_NAME} -v ${DRV_VERSION}
+RESULT=$?
+
+if [ "$RESULT" != "0" ]
+then
+	echo "An error occurred while running: dkms install"
+	exit 1
+else
+	echo "dkms install was successful."
+fi
+

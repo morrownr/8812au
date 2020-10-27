@@ -159,7 +159,7 @@ $ sudo iw dev
 
 ### USB 3 Support
 
-I have included a file called `88x2bu.conf` that will be installed in `/etc/modeprob.d` by default.
+I have included a file called `8812au.conf` that will be installed in `/etc/modeprob.d` by default.
 
 To make changes regarding USB 3 support, you will need to edit this file with a text editor. The options are as follows:
 
@@ -180,8 +180,6 @@ $ lsusb -t
 USB 2 =  480M
 
 USB 3 = 5000M
-
-Note: If there is a problem, delete `88x2bu.conf`.
 
 
 ### Enjoy

@@ -169,7 +169,7 @@ To make changes regarding USB 3 support, you will need to edit this file with a 
  2: switch from usb3.0 to usb 2.0
 ```
 
-USB 3 support is off by default as there can be problems with older USB 3 ports. It is easy to turn USB 3 support on and the difference in performance can be large as can be seen in the data from the tests that I have conducted:
+USB 3 support is off by default as there can be problems with older USB 3 ports. It is easy to turn USB 3 support on and the difference in performance can be large.
 
 See what your USB mode is:
 

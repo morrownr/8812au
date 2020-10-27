@@ -3,7 +3,7 @@
 ### Linux Driver for the RealTek RTL8812AU Chipset.
 
 - Driver Version: 5.9.3.2 (Realtek)
-- Plus updates and testing from the Linux community
+- Plus updates from the Linux community
 
 ### Supported Features:
 
@@ -21,7 +21,7 @@
 ### Supported Kernels:
 
 - Kernels: 2.6.24 ~ 5.8 (Realtek)
-- Kernel: 5.9
+- Kernels: 5.9
 
 ### Supported Linux Distributions:
 
@@ -30,10 +30,10 @@
 
 ### Tested Linux Distributions:
 
-- Ubuntu 20.10 Beta
 - Mint 20
-- Ubuntu 20.04
 - Mint 19.3
+- Ubuntu 20.10
+- Ubuntu 20.04
 - Ubuntu 18.04
 
 ### Tested Hardware:
@@ -51,7 +51,7 @@ This driver can be installed using DKMS. DKMS is a system utility which will aut
 $ sudo apt-get install dkms
 ```
 
-Note: The installation of `dkms` in Mint or Ubuntu will result in the installation of the various development tools and required headers, if not previously installed, so no addition action is necessary on these distros.
+Note: The installation of `dkms` in Mint or Ubuntu will result in the installation of the various development tools and required headers, if not previously installed, so no additional action is necessary on these distros.
 
 ### Installation of the Driver:
 
@@ -82,7 +82,7 @@ Open a terminal and enter the folder called `8812au-5.9.3.2`:
 $ cd ~/Downloads/8812au-5.9.3.2
 ```
 
-Execute the following command:
+Execute the following commands:
 ```
 $ sudo ./dkms-install.sh
 ```
@@ -91,13 +91,21 @@ $ sudo reboot
 ```
 ### Removal of the Driver:
 
-Open a terminal in the directory with the source code and execute the following command:
+Open a terminal in the directory with the source code and execute the following commands:
 ```
 $ sudo ./dkms-remove.sh
 ```
 ```
 $ sudo reboot
 ```
+
+### AP Mode (WiFi Hotspot Test):
+
+- Tested good.
+
+### Monitor Mode:
+
+- Tested good.
 
 ### Entering Monitor Mode with 'iw' and 'ip':
 Start by making sure the system recognizes the Wi-Fi interface:
@@ -151,9 +159,17 @@ $ sudo iw dev
 
 ### USB 3 Support
 
-I have included a file called `8812au.conf` that will be installed in `/etc/modeprob.d` by default.
+I have included a file called `88x2bu.conf` that will be installed in `/etc/modeprob.d` by default.
 
-`8812au.conf` passes a parameter to the driver during boot that turns USB 3 mode on.
+To make changes regarding USB 3 support, you will need to edit this file with a text editor. The options are as follows:
+
+```
+ 0: no switch (default)
+ 1: switch from usb2.0 to usb 3.0
+ 2: switch from usb3.0 to usb 2.0
+```
+
+USB 3 support is off by default as there can be problems with older USB 3 ports. It is easy to turn USB 3 support on and the difference in performance can be large as can be seen in the data from the tests that I have conducted:
 
 See what your USB mode is:
 

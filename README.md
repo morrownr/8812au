@@ -17,6 +17,7 @@
 - Power saving mode
 - AP Mode (WiFi Hotspot)
 - Monitor mode
+- WiFi-Direct
 
 ### Supported Kernels:
 
@@ -72,7 +73,7 @@ Get the latest version of the driver from: `https://github.com/morrownr/8812au`
 
 Download the driver by clicking on the green `Code` button.
 
-Click on `Download ZIP` and save `8812au-5.9.3.2.zip` in your `Downloads` folder.
+Click on `Download ZIP` and save `8812au-5.9.3.2.zip` in your `src` folder.
 
 Upzip `8812au-5.9.3.2.zip`. A folder called `8812au-5.9.3.2` should be created.
 
@@ -157,19 +158,55 @@ Verify the mode has changed:
 $ sudo iw dev
 ```
 
-### USB 3 Support
+### Driver Options
 
 I have included a file called `8812au.conf` that will be installed in `/etc/modeprob.d` by default.
 
-To make changes regarding USB 3 support, you will need to edit this file with a text editor. The options are as follows:
+Location: `/etc/modprobe.d/88x2bu.conf`
 
+To change driver options, you will need to edit `8812au.conf` with a text editor.
+
+Example:
 ```
- 0: no switch (default)
- 1: switch from usb2.0 to usb 3.0
- 2: switch from usb3.0 to usb 2.0
+$ sudo nano /etc/modprobe.d/88x2bu.conf
 ```
 
-USB 3 support is off by default as there can be problems with older USB 3 ports. It is easy to turn USB 3 support on and the difference in performance can be large.
+The options are as follows:
+
+USB mode options: ( rtw_switch_usb_mode )
+```
+  0 = no switch (default)
+  1 = switch from usb2.0 to usb 3.0
+  2 = switch from usb3.0 to usb 2.0
+```
+  Note: When changing USB options, a cold boot is recommended.
+
+
+Log level options: ( rtw_drv_log_level )
+```
+  0 = _DRV_NONE_ (default)
+  1 = _DRV_ALWAYS_
+  2 = _DRV_ERR_
+  3 = _DRV_WARNING_
+  4 = _DRV_INFO_
+  5 = _DRV_DEBUG_
+  6 = _DRV_MAX_
+```
+  Note: You can view RTW log entries by running the following in a terminal:
+  ```
+  $ sudo dmesg
+  ```
+
+LED control options: ( rtw_led_ctrl )
+```
+  0 = Always off
+  1 = Normal blink (default)
+  2 = Always on
+```
+
+### Notes about USB 3 support:
+
+USB 3 support is off by default as there can be problems with older USB 3 ports, however, almost all USB 3 ports on modern systems work well so turning USB 3 support on should work fine for almost everyone and the difference in performance can be large.
 
 See what your USB mode is:
 
@@ -180,6 +217,7 @@ $ lsusb -t
 USB 2 =  480M
 
 USB 3 = 5000M
+
 
 
 ### Enjoy

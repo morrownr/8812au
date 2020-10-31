@@ -162,16 +162,17 @@ $ sudo iw dev
 
 I have included a file called `8812au.conf` that will be installed in `/etc/modeprob.d` by default.
 
-Location: `/etc/modprobe.d/88x2bu.conf`
+Location: `/etc/modprobe.d/8812au.conf`
 
 To change driver options, you will need to edit `8812au.conf` with a text editor.
 
 Example:
 ```
-$ sudo nano /etc/modprobe.d/88x2bu.conf
+$ sudo nano /etc/modprobe.d/8812au.conf
 ```
 
 The options are as follows:
+
 
 USB mode options: ( rtw_switch_usb_mode )
 ```
@@ -196,6 +197,7 @@ Log level options: ( rtw_drv_log_level )
   ```
   $ sudo dmesg
   ```
+
 
 LED control options: ( rtw_led_ctrl )
 ```

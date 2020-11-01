@@ -143,7 +143,7 @@ exit:
 	return ret;
 }
 
-int _rtw_bss_is_same_mbss(WLAN_BSSID_EX *a, WLAN_BSSID_EX *b, u8 **a_mconf_ie_r, u8 **b_mconf_ie_r)
+int rtw_bss_is_same_mbss(WLAN_BSSID_EX *a, WLAN_BSSID_EX *b, u8 **a_mconf_ie_r, u8 **b_mconf_ie_r)
 {
 	int ret = 0;
 	u8 *a_mconf_ie, *b_mconf_ie;

@@ -42,7 +42,7 @@ const char *rtw_log_level_str[] = {
 void dump_drv_version(void *sel)
 {
 	RTW_PRINT_SEL(sel, "%s %s\n", DRV_NAME, DRIVERVERSION);
-	RTW_PRINT_SEL(sel, "build time: %s %s\n", __DATE__, __TIME__);
+	//RTW_PRINT_SEL(sel, "build time: %s %s\n", __DATE__, __TIME__);
 }
 
 void dump_drv_cfg(void *sel)
@@ -165,7 +165,7 @@ void dump_drv_cfg(void *sel)
 
 #ifdef CONFIG_RTW_TPT_MODE
 	RTW_PRINT_SEL(sel, "CONFIG_RTW_TPT_MODE\n");
-#endif 
+#endif
 
 #ifdef CONFIG_USB_HCI
 #ifdef CONFIG_SUPPORT_USB_INT
@@ -392,7 +392,7 @@ void bb_reg_dump(void *sel, _adapter *adapter)
 		_RTW_PRINT_SEL(sel, " 0x%08x ", rtw_read32(adapter, i));
 		if ((j++) % 4 == 0)
 			_RTW_PRINT_SEL(sel, "\n");
-	}	
+	}
 
 	for (i = 0x4000; i < 0x4060; i += 4) {
 		if (j % 4 == 1)
@@ -400,7 +400,7 @@ void bb_reg_dump(void *sel, _adapter *adapter)
 		_RTW_PRINT_SEL(sel, " 0x%08x ", rtw_read32(adapter, i));
 		if ((j++) % 4 == 0)
 			_RTW_PRINT_SEL(sel, "\n");
-	}	
+	}
 
 	for (i = 0x4100; i < 0x4200; i += 4) {
 		if (j % 4 == 1)
@@ -408,7 +408,7 @@ void bb_reg_dump(void *sel, _adapter *adapter)
 		_RTW_PRINT_SEL(sel, " 0x%08x ", rtw_read32(adapter, i));
 		if ((j++) % 4 == 0)
 			_RTW_PRINT_SEL(sel, "\n");
-	}	
+	}
 
 #endif /* CONFIG_RTL8822C || CONFIG_RTL8814B */
 
@@ -480,7 +480,7 @@ void rtw_sink_rtp_seq_dbg(_adapter *adapter, u8 *ehdr_pos)
 				} else {
 					RTW_INFO("%s : RTP Seq num from %d to %d\n", __FUNCTION__, precvpriv->pre_rtp_rxseq, precvpriv->cur_rtp_rxseq);
 				}
-			}	
+			}
 		}
 	}
 }
@@ -2082,7 +2082,7 @@ ssize_t proc_set_rate_ctl(struct file *file, const char __user *buffer, size_t c
 
 		if ((fix_rate == 0) || (fix_rate == 0xFF))
 			en = 0;
-			
+
 		if (macid != 255) {
 			RTW_INFO("Call phydm_fw_fix_rate()--en[%d] mac_id[%d] bw[%d] fix_rate[%d]\n", en, macid, bw, fix_rate);
 			phydm_fw_fix_rate(dm, en, macid, bw, fix_rate);
@@ -2902,7 +2902,7 @@ int proc_get_rx_signal(struct seq_file *m, void *v)
 
 		RTW_PRINT_SEL(m, "rx_rate = %s\n", HDATA_RATE(odm->rx_rate));
 		return 0;
-	} else 
+	} else
 #endif
 	{
 		/* RTW_PRINT_SEL(m, "rxpwdb:%d\n", padapter->recvpriv.rxpwdb); */
@@ -3547,10 +3547,10 @@ int proc_get_dyn_rrsr(struct seq_file *m, void *v) {
 	struct registry_priv *pregpriv = &padapter->registrypriv;
 	u32 init_rrsr =0xFFFFFFFF;
 
-	if (padapter) 
+	if (padapter)
 		RTW_PRINT_SEL(m, "en_dyn_rrsr = %d fixed_rrsr_value =0x%x %s\n"
 			, pregpriv->en_dyn_rrsr
-			, pregpriv->set_rrsr_value 
+			, pregpriv->set_rrsr_value
 			, (pregpriv->set_rrsr_value == init_rrsr)?"(default)":"(fixed)"
 		);
 
@@ -4842,7 +4842,7 @@ ssize_t proc_set_wow_enable(struct file *file, const char __user *buffer,
 	int num = 0;
 	int mode = 0;
 
-	if (count < 1) 
+	if (count < 1)
 		return -EFAULT;
 
 	if (count > sizeof(tmp)) {
@@ -4850,9 +4850,9 @@ ssize_t proc_set_wow_enable(struct file *file, const char __user *buffer,
 		return -EFAULT;
 	}
 
-	if (buffer && !copy_from_user(tmp, buffer, count)) 
+	if (buffer && !copy_from_user(tmp, buffer, count))
 		num = sscanf(tmp, "%d", &mode);
-	else 
+	else
 		return -EFAULT;
 
 	if (num != 1) {
@@ -5318,7 +5318,7 @@ ssize_t proc_set_ps_info(struct file *file, const char __user *buffer, size_t co
 		RTW_INFO("%s: back to original LPS/IPS Mode\n", __FUNCTION__);
 
 		rtw_pm_set_lps(adapter, adapter->registrypriv.power_mgnt);
-		
+
 		rtw_pm_set_ips(adapter, adapter->registrypriv.ips_mode);
 
 #ifdef CONFIG_WOWLAN
@@ -5329,16 +5329,16 @@ ssize_t proc_set_ps_info(struct file *file, const char __user *buffer, size_t co
 
 		goto exit;
 	}
-	
-	if (mode == 1) { 
+
+	if (mode == 1) {
 		/* LPS */
-		RTW_INFO("%s: LPS: %s, en=%d\n", __FUNCTION__, (en == 0) ? "disable":"enable", en);	
+		RTW_INFO("%s: LPS: %s, en=%d\n", __FUNCTION__, (en == 0) ? "disable":"enable", en);
 		if (rtw_pm_set_lps(adapter, en) != 0 )
 			RTW_ERR("%s: invalid parameter, mode=%d, level=%d\n", __FUNCTION__, mode, en);
-		
+
 	} else if (mode == 2) {
 		/* IPS */
-		RTW_INFO("%s: IPS: %s, en=%d\n", __FUNCTION__, (en == 0) ? "disable":"enable", en);	
+		RTW_INFO("%s: IPS: %s, en=%d\n", __FUNCTION__, (en == 0) ? "disable":"enable", en);
 		if (rtw_pm_set_ips(adapter, en) != 0 )
 			RTW_ERR("%s: invalid parameter, mode=%d, level=%d\n", __FUNCTION__, mode, en);
 	}

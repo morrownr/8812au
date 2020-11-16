@@ -39,8 +39,7 @@
 
 ### Tested Hardware:
 
-- Alfa - AWUS036ACH: amazon.com/dp/B00VEEBOPG
-
+- Alfa - AWUS036ACH: https://www.amazon.com/dp/B00VEEBOPG
 
 ## Supported Devices:
 

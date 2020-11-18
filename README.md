@@ -43,6 +43,15 @@
 
 ## Supported Devices:
 
+* Alfa AWUS036AC
+* Alfa AWUS036ACH
+* Belkin F9L1109
+* Buffalo - WI-U3-866D
+* D-Link DWA-182 (Rev. C1)
+* Edimax EW-7822UAC
+* Linksys WUSB6300
+* Rosewill RNX-AC1200UBE
+* TRENDnet TEW-805UB
 * Numerous products that are based on the supported chipset.
 
 ### DKMS:

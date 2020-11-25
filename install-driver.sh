@@ -20,7 +20,7 @@ else
 fi
 
 echo ""
-echo "Copying driver to: /usr/src/${DRV_NAME}-${DRV_VERSION}"
+echo "Copying driver source files to: /usr/src/${DRV_NAME}-${DRV_VERSION}"
 cp -r $(pwd) /usr/src/${DRV_NAME}-${DRV_VERSION}
 
 echo ""

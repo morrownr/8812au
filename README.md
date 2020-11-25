@@ -5,7 +5,7 @@
 - Driver Version: 5.9.3.2 (Realtek)
 - Plus updates from the Linux community
 
-### Supported Features:
+### Features:
 
 - IEEE 802.11 b/g/n/ac WiFi compliant
 - 802.1x, WEP, WPA TKIP and WPA2 AES/Mixed mode for PSK and TLS (Radius)
@@ -15,33 +15,42 @@
 - Site survey scan and manual connect
 - WPA/WPA2 TLS client
 - Power saving mode
+- LED control
 - AP Mode (WiFi Hotspot)
-- Monitor mode
 - WiFi-Direct
+- Monitor mode
+- USB mode control
+- Packet Injection (needs testing, please report results in `Issues`)
 
-### Supported Kernels:
+### Compatible Kernels:
 
 - Kernels: 2.6.24 ~ 5.8 (Realtek)
 - Kernels: 5.9
 
-### Supported Linux Distributions:
-
-- Ubuntu - https://ubuntu.com/
-- Mint - https://linuxmint.com/
-
 ### Tested Linux Distributions:
 
-- Mint 20
-- Mint 19.3
+- Raspberry Pi OS (08-20-2020) (ARM 32 bit and ARM 64 bit)
+
+- LMDE 4 (Linux Mint based on Debian)
+
+- Linux Mint 20 (Linux Mint based on Ubuntu)
+- Linux Mint 19.3 (Linux Mint based on Ubuntu)
+
 - Ubuntu 20.10
 - Ubuntu 20.04
 - Ubuntu 18.04
+
+### Download Locations for Tested Linux Distributions:
+
+- Raspberry Pi OS - https://www.raspberrypi.org/
+- Linux Mint - https://linuxmint.com/
+- Ubuntu - https://ubuntu.com/
 
 ### Tested Hardware:
 
 - Alfa - AWUS036ACH: https://www.amazon.com/dp/B00VEEBOPG
 
-## Supported Devices:
+### Compatible Devices:
 
 * Alfa AWUS036AC
 * Alfa AWUS036ACH
@@ -54,69 +63,173 @@
 * TRENDnet TEW-805UB
 * Numerous products that are based on the supported chipset.
 
-### DKMS:
-This driver can be installed using DKMS. DKMS is a system utility which will automatically recompile and install a kernel module when a new kernel is installed. To make use of DKMS, install the `dkms` package. On Debian (based) systems, such as Ubuntu and Mint, installation is accomplished like this:
-```
-$ sudo apt-get install dkms
-```
-
-Note: The installation of `dkms` in Mint or Ubuntu will result in the installation of the various development tools and required headers, if not previously installed, so no additional action is necessary on these distros.
-
 ### Installation of the Driver:
 
-Note: The installation instructions I am providing are for the novice user. Experienced users are welcome to alter the installation to meet their needs.
+Note: The installation instructions that are provided are for the novice user. Experienced users are welcome to alter the installation to meet their needs.
 
-Note: The quick way to open a terminal in Mint or Ubuntu: Ctrl+Alt+T (hold down on the Ctrl and Alt keys then press the T key.)
+Note: The installation instructions require that your system has access to the internet. There are numerous ways to enable temporary internet access depending on your hardware and situation.
 
-Note: My technique is to create a folder in my home directory to hold source packages. I call it `src`.
+Note: The installation instructions require the use of the terminal. The quick way to open a terminal: Ctrl+Alt+T (hold down on the Ctrl and Alt keys then press the T key.)
 
-Create a folder to hold the downloaded driver file by first opening a terminal (Ctrl+Alt+T).
+Note: The installation instructions make use of DKMS. DKMS is a system utility which will automatically recompile and install this kernel module when a new kernel is installed. DKMS is provided by and maintained by Dell.
 
-In the terminal, create the folder to hold the driver file:
+Note: It is recommended that you do not delete the driver directory after installation as the directory contains documentation (README.md) and scripts that you may need in the future.
+
+Step 1: Open a terminal (Ctrl+Alt+T)
+
+Step 2: Update the system:
+```
+$ sudo apt-get update
+```
+Step 3: Install the required packages: (select the option for the OS you are using)
+
+Option for Raspberry Pi OS:
+```
+$ sudo apt-get install -y raspberrypi-kernel-headers bc build-essential dkms git
+```
+Option for LMDE (Debian based):
+```
+$ sudo apt-get install -y linux-headers-$(uname -r) build-essential dkms git
+```
+Option for Linux Mint or Ubuntu:
+```
+$ sudo apt-get install -y dkms git
+```
+Step 4: Create a directory to hold the downloaded driver:
+
+Note: The technique used in this document is to create a directory in the home directory called `src`.
 ```
 $ mkdir src
 ```
-
-Get the latest version of the driver from: `https://github.com/morrownr/8812au`
-
-Download the driver by clicking on the green `Code` button.
-
-Click on `Download ZIP` and save `8812au-5.9.3.2.zip` in your `src` folder.
-
-Upzip `8812au-5.9.3.2.zip`. A folder called `8812au-5.9.3.2` should be created.
-
-Open a terminal and enter the folder called `8812au-5.9.3.2`:
-
+Step 5: Move to the newly created directory:
 ```
-$ cd ~/Downloads/8812au-5.9.3.2
+$ cd ~/src
 ```
+Step 6: Download the driver:
+```
+$ git clone https://github.com/morrownr/8812au.git
+```
+Step 7: Move to the newly created driver directory:
+```
+$ cd ~/src/8812au
+```
+Step 8: Run the installation script and reboot: (select the option for the OS you are using)
 
-Execute the following commands:
+Option for LMDE, Linux Mint or Ubuntu:
+
+Run installation script and reboot:
 ```
-$ sudo ./dkms-install.sh
-```
-```
+$ sudo ./install-driver.sh
 $ sudo reboot
 ```
+Note: The installation for LMDE, Linux Mint or Ubuntu is complete.
+
+Option for Raspberry Pi OS: (select either Option 1 or Option 2 but not both)
+
+Turn off I386 support:
+```
+$ sed -i 's/CONFIG_PLATFORM_I386_PC = y/CONFIG_PLATFORM_I386_PC = n/g' Makefile
+```
+Option 1: for Raspberry Pi OS (32 bit), turn on ARM support:
+```
+$ sed -i 's/CONFIG_PLATFORM_ARM_RPI = n/CONFIG_PLATFORM_ARM_RPI = y/g' Makefile
+```
+Option 2: for Raspberry Pi OS (64 bit), turn on ARM64 support:
+```
+$ sed -i 's/CONFIG_PLATFORM_ARM64_RPI = n/CONFIG_PLATFORM_ARM64_RPI = y/g' Makefile
+```
+Run installation script and reboot:
+```
+$ sudo ./install-driver.sh
+$ sudo reboot
+```
+Note: The installation for Raspberry Pi OS is complete.
+
 ### Removal of the Driver:
 
-Open a terminal in the directory with the source code and execute the following commands:
+Step 1: Open a terminal (Ctrl+Alt+T)
+
+Step 2: Move to the driver directory:
 ```
-$ sudo ./dkms-remove.sh
+$ cd ~/src/8812au
 ```
+Step 3: Run the removal script and reboot:
 ```
+$ sudo ./remove-driver.sh
 $ sudo reboot
 ```
 
-### AP Mode (WiFi Hotspot Test):
+### Driver Options:
 
-- Tested good.
+A file called `8812au.conf` will be installed in `/etc/modeprob.d` by default.
 
-### Monitor Mode:
+Location: `/etc/modprobe.d/8812au.conf`
 
-- Tested good.
+This file will be read and applied to the driver on each system boot.
+
+To change the driver options, there are two options:
+
+Option 1: Edit `8812au.conf` with a text editor using a terminal interface.
+
+Example:
+```
+$ sudo nano /etc/modprobe.d/8812au.conf
+```
+Option 2: From the driver directory, run the `./edit-options.sh` script:
+```
+$ sudo ./edit-options.sh
+```
+The driver options are as follows:
+
+
+USB mode options: ( rtw_switch_usb_mode )
+```
+  0 = no switch (default)
+  1 = switch from usb 2.0 to usb 3.0
+  2 = switch from usb 3.0 to usb 2.0
+```
+  Note: When changing USB options, a cold boot is recommended.
+
+
+Log level options: ( rtw_drv_log_level )
+```
+  0 = NONE (default)
+  1 = ALWAYS
+  2 = ERRORS
+  3 = WARNINGS
+  4 = INFO
+  5 = DEBUG
+  6 = MAX
+```
+  Note: View RTW log entries by running the following in a terminal:
+  ```
+  $ sudo dmesg
+  ```
+
+
+LED control options: ( rtw_led_ctrl )
+```
+  0 = Always off
+  1 = Normal blink (default)
+  2 = Always on
+```
+
+### Information about USB 3 support:
+
+USB 3 support is off by default as there can be problems with older USB 3 ports, however, almost all USB 3 ports on modern systems work well so turning USB 3 support on should work fine for almost everyone and the difference in performance can be large as can be seen in the data from the tests that I have conducted:
+
+See what your USB mode is:
+
+```
+$ lsusb -t
+```
+```
+USB 2 =  480M
+USB 3 = 5000M
+```
 
 ### Entering Monitor Mode with 'iw' and 'ip':
+
 Start by making sure the system recognizes the Wi-Fi interface:
 ```
 $ sudo iw dev
@@ -166,68 +279,71 @@ Verify the mode has changed:
 $ sudo iw dev
 ```
 
-### Driver Options
+### ----------------------------- Various Tidbits of Information -----------------------------
 
-I have included a file called `8812au.conf` that will be installed in `/etc/modeprob.d` by default.
 
-Location: `/etc/modprobe.d/8812au.conf`
+### How to disable onboard WiFi on Raspberry Pi 3B, 3B+, 3A+, 4B and Zero W.
 
-To change driver options, you will need to edit `8812au.conf` with a text editor.
-
-Example:
+Add the following line to /boot/config.txt:
 ```
-$ sudo nano /etc/modprobe.d/8812au.conf
+dtoverlay=disable-wifi
 ```
 
-The options are as follows:
 
+### How to forget a saved wifi network on a Raspberry Pi
 
-USB mode options: ( rtw_switch_usb_mode )
+1. Edit wpa_supplicant.conf:
 ```
-  0 = no switch (default)
-  1 = switch from usb2.0 to usb 3.0
-  2 = switch from usb3.0 to usb 2.0
+$ sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
 ```
-  Note: When changing USB options, a cold boot is recommended.
+2. Delete the relevant wifi network block (including the 'network=' and opening/closing braces.
+
+3. Press ctrl-x followed by 'y' and enter to save the file.
+
+4. Reboot
 
 
-Log level options: ( rtw_drv_log_level )
+### Recommended Router Settings for WiFi:
+
+Note: These are general recommendations based on years of experience but may not apply to your situation so testing to see if any help fix your problem is recommended.
+
+Security: Use WPA2-AES. Do not use WPA or WPA2 mixed mode or TKIP.
+
+Channel Width for 2.4G: Use 20 MHz. Do not use 40 MHz or 20/40 automatic.
+
+Channels for 2.4G: Use 1 or 6 or 11. Do not use automatic channel selection.
+
+Mode for 2.4G: Use G/N or B/G/N. Do not use N only.
+
+Network names: Do not set the 2.4G Network and the 5G Network to the same name. Many routers come with both networks set to the same name.
+
+Power Saving: Set to off. This can help in some situations. If you try turning it off and you see no improvement then set it back to on so as to save electricity.
+
+After making these changes, reboot the router.
+
+
+### Set regulatory domain to correct setting in OS:
+
+Check the current setting:
 ```
-  0 = _DRV_NONE_ (default)
-  1 = _DRV_ALWAYS_
-  2 = _DRV_ERR_
-  3 = _DRV_WARNING_
-  4 = _DRV_INFO_
-  5 = _DRV_DEBUG_
-  6 = _DRV_MAX_
-```
-  Note: You can view RTW log entries by running the following in a terminal:
-  ```
-  $ sudo dmesg
-  ```
-
-
-LED control options: ( rtw_led_ctrl )
-```
-  0 = Always off
-  1 = Normal blink (default)
-  2 = Always on
-```
-
-### Notes about USB 3 support:
-
-USB 3 support is off by default as there can be problems with older USB 3 ports, however, almost all USB 3 ports on modern systems work well so turning USB 3 support on should work fine for almost everyone and the difference in performance can be large.
-
-See what your USB mode is:
-
-```
-$ lsusb -t
+$ sudo iw reg get
 ```
 
-USB 2 =  480M
+If you get 00, that is the default and may not provide optimal performance.
 
-USB 3 = 5000M
+Find the correct setting here: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 
+Set it temporarily:
+```
+$ sudo iw reg set US
+```
+Note: Substitute your country code if not the United States.
 
+Set it permanently:
+```
+$ sudo nano /etc/default/crda
 
-### Enjoy
+Change the last line to read:
+
+REGDOMAIN=US
+```

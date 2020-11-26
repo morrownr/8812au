@@ -2,11 +2,13 @@
 
 DRV_NAME=rtl8812au
 DRV_VERSION=5.9.3.2
+OPTIONS_FILE=8812au.conf
+SCRIPT_NAME=install-driver.sh
 
 if [ $EUID -ne 0 ]
 then
-	echo "You must run dkms-install.sh with superuser priviliges."
-	echo "Try: \"sudo ./dkms-install.sh\""
+	echo "You must run ${SCRIPT_NAME} with superuser priviliges."
+	echo "Try: \"sudo ./${SCRIPT_NAME}\""
 	exit 1
 fi
 
@@ -19,13 +21,11 @@ else
 	exit 1
 fi
 
-echo ""
 echo "Copying driver source files to: /usr/src/${DRV_NAME}-${DRV_VERSION}"
 cp -r $(pwd) /usr/src/${DRV_NAME}-${DRV_VERSION}
 
-echo ""
-echo "Copying 8812au.conf to: /etc/modprobe.d"
-cp -r 8812au.conf /etc/modprobe.d
+echo "Copying ${OPTIONS_FILE} to: /etc/modprobe.d"
+cp -r ${OPTIONS_FILE} /etc/modprobe.d
 
 dkms add -m ${DRV_NAME} -v ${DRV_VERSION}
 RESULT=$?

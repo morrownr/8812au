@@ -2,7 +2,7 @@
 
 ### Linux Driver for the RealTek RTL8812AU Chipset.
 
-- Driver Version: 5.9.3.2 (Realtek)
+- Driver Version: 5.9.3.2 (Realtek) (2020-10-12)
 - Plus updates from the Linux community
 
 ### Features:
@@ -18,9 +18,13 @@
 - LED control
 - AP Mode (WiFi Hotspot)
 - WiFi-Direct
+- Miracast
+- MU-MIMO
+- Mesh
+- Wake on LAN
 - Monitor mode
-- USB mode control
 - Packet Injection (needs testing, please report results in `Issues`)
+- USB mode control
 
 ### Compatible Kernels:
 
@@ -235,7 +239,7 @@ Start by making sure the system recognizes the Wi-Fi interface:
 $ sudo iw dev
 ```
 
-The output shows the Wi-Fi interface name and the current mode among other things. The interface name will be something like `wlx00c0cafre8ba` and is required for the below commands. I will use `wlan0` as the interface name but you need to substitute your interface name.
+Note: The output shows the Wi-Fi interface name and the current mode among other things. The interface name may be something like `wlx00c0cafre8ba` and is required for the below commands. The interface name `wlan0` will be used in the instructions below but you need to substitute your interface name.
 
 Take the interface down:
 ```

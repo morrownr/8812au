@@ -1045,9 +1045,10 @@ int rtw_phydm_rfe_ctrl_gpio(
 	#ifdef RTW_HALMAC
 	if(rtw_halmac_rfe_ctrl_cfg(adapter_to_dvobj(adapter), gpio_num))
 		return _TRUE;
-	else
-		return _FALSE;
+//	else
+//		return _FALSE;
 	#endif/*RTW_HALMAC*/
+	return _FALSE; // nrm - 2020-11-26
 }
 
 enum hal_status

@@ -8,23 +8,25 @@
 ### Features:
 
 - IEEE 802.11 b/g/n/ac WiFi compliant
-- 802.1x, WEP, WPA TKIP and WPA2 AES/Mixed mode for PSK and TLS (Radius)
-- WPS - PIN and PBC Methods
-- IEEE 802.11b/g/n/ac Client mode
-- Wireless security for WEP, WPA TKIP, WPA2 AES PSK and WPA3-SAE Personal
-- Site survey scan and manual connect
-- WPA/WPA2 TLS client
-- Power saving mode
-- LED control
-- AP Mode (WiFi Hotspot)
-- WiFi-Direct
-- Miracast
-- MU-MIMO
-- Mesh
-- Wake on LAN
-- Monitor mode
-- Packet Injection (needs testing, please report results in `Issues`)
+
+- Supported Ciphers:
+	* WEP40 (00-0f-ac:1)
+	* WEP104 (00-0f-ac:5)
+	* TKIP (00-0f-ac:2)
+	* CCMP-128 (00-0f-ac:4)
+	* CMAC (00-0f-ac:6)
+
+- Supported interface modes:
+	* IBSS
+	* Managed
+	* AP (WiFi Hotspot) (Master mode)
+	* Monitor
+	* P2P-client
+	* P2P-GO
+
 - USB mode control
+- Log level control
+- LED control
 
 ### Compatible Kernels:
 
@@ -220,7 +222,7 @@ LED control options: ( rtw_led_ctrl )
 
 ### Information about USB 3 support:
 
-USB 3 support is off by default as there can be problems with older USB 3 ports, however, almost all USB 3 ports on modern systems work well so turning USB 3 support on should work fine for almost everyone and the difference in performance can be large as can be seen in the data from the tests that I have conducted:
+USB 3 support is off by default as there can be problems with older USB 3 ports, however, almost all USB 3 ports on modern systems work well so turning USB 3 support on should work fine for almost everyone and the difference in performance can be large.
 
 See what your USB mode is:
 

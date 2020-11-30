@@ -233,6 +233,21 @@ $ lsusb -t
 USB 2 =  480M
 USB 3 = 5000M
 ```
+iperf3 test results with USB 3 mode on:
+```
+Bitrate			Retr
+--------------------
+414 Mbits/sec    0
+482 Mbits/sec    0
+472 Mbits/sec    0
+461 Mbits/sec    0
+472 Mbits/sec    0
+472 Mbits/sec    0
+482 Mbits/sec    0
+481 Mbits/sec    0
+462 Mbits/sec    0
+482 Mbits/sec    0
+```
 
 ### Entering Monitor Mode with 'iw' and 'ip':
 

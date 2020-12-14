@@ -32,7 +32,7 @@
 - Log level control
 - LED control
 - Power saving control
-- VHT Control ( to allow 80 MHz channel width in AP mode)
+- VHT control ( to allow 80 MHz channel width in AP mode)
 
 ### Compatible CPUs:
 

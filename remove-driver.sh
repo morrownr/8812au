@@ -1,8 +1,8 @@
 #!/bin/bash
 
-DRV_NAME=rtl8812au
-DRV_VERSION=5.9.3.2
-OPTIONS_FILE=8812au.conf
+DRV_NAME="rtl8812au"
+DRV_VERSION="5.9.3.2"
+OPTIONS_FILE="8812au.conf"
 
 KRNL_VERSION=$(uname -r)
 SCRIPT_NAME="remove-driver.sh"

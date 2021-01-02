@@ -15,8 +15,8 @@ EXTRA_CFLAGS += -Wno-unused-variable
 #EXTRA_CFLAGS += -Wno-unused
 #EXTRA_CFLAGS += -Wno-uninitialized
 EXTRA_CFLAGS += -Wno-vla
-##EXTRA_CFLAGS += -Wno-implicit-fallthrough
-##EXTRA_CFLAGS += -Wno-return-type
+#EXTRA_CFLAGS += -Wno-implicit-fallthrough
+#EXTRA_CFLAGS += -Wno-return-type
 
 EXTRA_CFLAGS += -I$(src)/include
 
@@ -97,14 +97,14 @@ EXTRA_CFLAGS += -DCONFIG_RTW_ANDROID=$(CONFIG_RTW_ANDROID)
 endif
 
 ########################## Debug ###########################
-CONFIG_DISABLE_PHYDM_DEBUG_FUNCTION = y
 CONFIG_RTW_DEBUG = y
 # default log level is _DRV_INFO_ = 4,
 # please refer to "How_to_set_driver_debug_log_level.doc" to set the available level.
 CONFIG_RTW_LOG_LEVEL = 0
 
 # enable /proc/net/rtlxxxx/ debug interfaces
-CONFIG_PROC_DEBUG = y
+CONFIG_PROC_DEBUG = n
+CONFIG_DISABLE_PHYDM_DEBUG_FUNCTION = y
 
 ######################## Wake On Lan ##########################
 CONFIG_WOWLAN = n

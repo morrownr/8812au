@@ -23,7 +23,7 @@ dtoverlay=disable-wifi
 
 Change driver options:
 
-$ sudo nano /etc/modprobe.d/88x2bu.conf
+$ sudo nano /etc/modprobe.d/8812au.conf
 
 rtw_vht_enable=2
 rtw_switch_usb_mode=1 (only for USB 3 capable adapters)

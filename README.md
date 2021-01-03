@@ -68,8 +68,7 @@
 - Linux Mint - https://www.linuxmint.com/
 - Manjaro - https://manjaro.org/
 - Raspberry Pi OS - https://www.raspberrypi.org/
-- Ubuntu - https://ubuntu.com/
-
+- Ubuntu - https://www.ubuntu.com/
 
 ### Tested Hardware:
 
@@ -198,13 +197,9 @@ Location: `/etc/modprobe.d/8812au.conf`
 
 This file will be read and applied to the driver on each system boot.
 
-Here are two options to edit the driver options file:
+To edit the driver options file:
 
-Option 1: Edit `8812au.conf` with a text editor using a terminal interface.
-```bash
-$ sudo nano /etc/modprobe.d/8812au.conf
-```
-Option 2: From the driver directory, run the `./edit-options.sh` script:
+From the driver directory, run the `./edit-options.sh` script:
 ```bash
 $ sudo ./edit-options.sh
 ```
@@ -297,57 +292,6 @@ Bitrate
 481 Mbits/sec
 462 Mbits/sec
 482 Mbits/sec
-```
-
-### Entering Monitor Mode with 'iw' and 'ip':
-
-Start by making sure the system recognizes the WiFi interface:
-```bash
-$ sudo iw dev
-```
-
-Note: The output shows the WiFi interface name and the current mode among other things. The interface name may be something like `wlx00c0cafre8ba` and is required for the below commands. The interface name `wlan0` will be used in the instructions below but you need to substitute your interface name.
-
-Take the interface down:
-```bash
-$ sudo ip link set wlan0 down
-```
-
-Set monitor mode:
-```bash
-$ sudo iw wlan0 set monitor control
-```
-
-Bring the interface up:
-```bash
-$ sudo ip link set wlan0 up
-```
-
-Verify the mode has changed:
-```bash
-$ sudo iw dev
-```
-
-### Reverting to Managed Mode with 'iw' and 'ip':
-
-Take the interface down:
-```bash
-$ sudo ip link set wlan0 down
-```
-
-Set managed mode:
-```bash
-$ sudo iw wlan0 set type managed
-```
-
-Bring the interface up:
-```bash
-$ sudo ip link set wlan0 up
-```
-
-Verify the mode has changed:
-```bash
-$ sudo iw dev
 ```
 
 ### ----------------------------- Various Tidbits of Information -----------------------------

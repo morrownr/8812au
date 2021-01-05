@@ -99,7 +99,7 @@ SwLedBlink(
 
 		case LED_BLINK_WPS: 
 			_set_timer(&(pLed->BlinkTimer), LED_BLINK_LONG_INTERVAL);
-		        break;
+			break;
 
 		default:
 			_set_timer(&(pLed->BlinkTimer), LED_BLINK_SLOWLY_INTERVAL);

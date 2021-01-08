@@ -94,7 +94,7 @@ Add:
 ## hostapd.conf
 #
 ## rtl8812au USB WiFi Adapter
-## 5g, 80211n, 80211ac, channel width 80
+## 5g, 80211ac, channel width 80, 867 Mb/s
 
 interface=wlan0
 bridge=br0

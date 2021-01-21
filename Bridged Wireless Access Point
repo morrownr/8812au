@@ -164,3 +164,43 @@ $ sudo systemctl enable hostapd
 -----
 
 $ sudo reboot
+
+-----
+
+iperf3 results:
+
+$ iperf3 -c 192.168.1.40
+Connecting to host 192.168.1.40, port 5201
+[  5] local 192.168.1.9 port 59384 connected to 192.168.1.40 port 5201
+[ ID] Interval           Transfer     Bitrate         Retr  Cwnd
+[  5]   0.00-1.00   sec  51.9 MBytes   435 Mbits/sec    0   1.43 MBytes       
+[  5]   1.00-2.00   sec  51.2 MBytes   430 Mbits/sec    0   1.67 MBytes       
+[  5]   2.00-3.00   sec  52.5 MBytes   440 Mbits/sec    0   1.86 MBytes       
+[  5]   3.00-4.00   sec  52.5 MBytes   440 Mbits/sec    0   1.86 MBytes       
+[  5]   4.00-5.00   sec  52.5 MBytes   440 Mbits/sec    0   1.97 MBytes       
+[  5]   5.00-6.00   sec  52.5 MBytes   440 Mbits/sec    0   2.07 MBytes       
+[  5]   6.00-7.00   sec  52.5 MBytes   440 Mbits/sec    0   2.07 MBytes       
+[  5]   7.00-8.00   sec  52.5 MBytes   440 Mbits/sec    0   2.07 MBytes       
+[  5]   8.00-9.00   sec  52.5 MBytes   440 Mbits/sec    0   2.07 MBytes       
+[  5]   9.00-10.00  sec  51.2 MBytes   430 Mbits/sec    0   2.07 MBytes       
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-10.00  sec   522 MBytes   438 Mbits/sec    0
+[  5]   0.00-10.01  sec   520 MBytes   435 Mbits/sec
+
+iperf Done.
+
+-----
+
+iwconfig results:
+
+$ iwconfig
+wlxbcec434157ce  IEEE 802.11AC  ESSID:"pi"  Nickname:"WIFI@RTL88X2BU"
+          Mode:Managed  Frequency:5.18 GHz  Access Point: 00:00:00:00:00:00   
+          Bit Rate:867 Mb/s   Sensitivity:0/0  
+          Retry:off   RTS thr:off   Fragment thr:off
+          Link Quality=97/100  Signal level=-41 dBm  Noise level=0 dBm
+          Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
+          Tx excessive retries:0  Invalid misc:0   Missed beacon:0
+
+-----

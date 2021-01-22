@@ -1,6 +1,11 @@
 Bridged Wireless Access Point
 
-2021-01-21
+For wireless adapters based on the following chipsets:
+
+rtl8812au
+
+
+2021-01-22
 
 Tested setup:
 
@@ -8,10 +13,14 @@ Raspberry Pi 4B (4gb)
 Raspberry Pi OS (2021-01-11) (32 bit)
 Driver: github.com/morrownr/8812au.git
 Onboard WiFi disabled
-Ethernet connection
+Ethernet connection providing internet
 USB WiFi Adapter based on the rtl8812au chipset
 
 Steps:
+
+Install the driver for the WiFi adapter.
+
+-----
 
 Optional: Disable Raspberry Pi onboard WiFi:
 

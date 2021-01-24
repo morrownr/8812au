@@ -204,7 +204,7 @@ iperf Done.
 iwconfig results:
 
 $ iwconfig
-wlxbcec434157ce  IEEE 802.11AC  ESSID:"pi"  Nickname:"WIFI@RTL88X2BU"
+wlan0     IEEE 802.11AC  ESSID:"pi"  Nickname:"WIFI@RTL88X2BU"
           Mode:Managed  Frequency:5.18 GHz  Access Point: 00:00:00:00:00:00   
           Bit Rate:867 Mb/s   Sensitivity:0/0  
           Retry:off   RTS thr:off   Fragment thr:off

@@ -1,3 +1,7 @@
+##### [Click for USB WiFi Adapter Information for Linux](https://github.com/morrownr/USB-WiFi)
+
+-----
+
 ### 8812au ( 8812au.ko ) :rocket:
 
 ### Linux Driver for USB WiFi Adapters that use the RTL8812AU Chipset
@@ -42,7 +46,7 @@
 ### Compatible Kernels
 
 - Kernels: 2.6.24 - 5.8 (Realtek)
-- Kernels: 5.9 - 5.10
+- Kernels: 5.9 - 5.11
 
 ### Tested Linux Distributions
 
@@ -57,7 +61,7 @@
 
 - Manjaro 20.1 (kernel 5.9)
 
-- Raspberry Pi OS (12-02-2020) (ARM 32 bit) (kernel 5.4)
+- Raspberry Pi OS (2021-01-11) (ARM 32 bit) (kernel 5.4)
 
 - Ubuntu 20.10 (kernel 5.8)
 - Ubuntu 20.04 (kernel 5.4)
@@ -176,22 +180,7 @@ Step 10: Reboot
 ```bash
 $ sudo reboot
 ```
-### Removal of the Driver
 
-Step 1: Open a terminal (Ctrl+Alt+T)
-
-Step 2: Move to the driver directory
-```bash
-$ cd ~/src/8812au
-```
-Step 3: Run the removal script
-```bash
-$ sudo ./remove-driver.sh
-```
-Step 4: Reboot
-```bash
-$ sudo reboot
-```
 ### Driver Options
 
 A file called `8812au.conf` will be installed in `/etc/modeprob.d` by default.
@@ -294,7 +283,22 @@ Bitrate
 462 Mbits/sec
 482 Mbits/sec
 ```
+### Removal of the Driver
 
+Step 1: Open a terminal (Ctrl+Alt+T)
+
+Step 2: Move to the driver directory
+```bash
+$ cd ~/src/8812au
+```
+Step 3: Run the removal script
+```bash
+$ sudo ./remove-driver.sh
+```
+Step 4: Reboot
+```bash
+$ sudo reboot
+```
 ### Recommended Router Settings for WiFi
 
 Note: These are general recommendations based on years of experience but may not apply to your situation so testing to see if any help fix your problem is recommended.

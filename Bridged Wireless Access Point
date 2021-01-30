@@ -5,7 +5,7 @@ For wireless adapters based on the following chipsets:
 rtl8812au
 
 
-2021-01-27
+2021-01-30
 
 Tested setup:
 
@@ -188,7 +188,7 @@ ht_capab=[HT40+][SHORT-GI-20][SHORT-GI-40][MAX-AMSDU-7935]
 ##### IEEE 802.11ac related configuration #####
 ieee80211ac=1
 # 8812au
-vht_capab=[MAX-A-MPDU-LEN-EXP3][MAX-MPDU-11454][SHORT-GI-80][TX-STBC-2BY1][HTC-VHT]
+vht_capab=[MAX-A-MPDU-LEN-EXP3][MAX-MPDU-11454][SHORT-GI-80][HTC-VHT]
 vht_oper_chwidth=1
 vht_oper_centr_freq_seg0_idx=42
 #vht_oper_centr_freq_seg0_idx=155

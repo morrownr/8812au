@@ -5,10 +5,9 @@ ethernet network to extend the network to WiFi capable computers
 and devices in areas where the WiFi signal is weak or otherwise
 does not meet expectations.
 
-This document is for WiFi adapters based on the following chipsets
+This document is for WiFi adapters based on the following chipset
 ```
 rtl8812au
-
 ```
 2021-02-07
 
@@ -170,7 +169,7 @@ File contents
 
 # change the interface name to match your system, if necessary
 interface=wlan0
-
+#
 bridge=br0
 driver=nl80211
 ctrl_interface=/var/run/hostapd

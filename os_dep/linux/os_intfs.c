@@ -1253,6 +1253,7 @@ uint loadparam(_adapter *padapter)
 #ifdef CONFIG_TX_EARLY_MODE
 	registry_par->early_mode = (u8)rtw_early_mode;
 #endif
+
 #ifdef CONFIG_SW_LED
 	registry_par->led_ctrl = (u8)rtw_led_ctrl;
 #endif

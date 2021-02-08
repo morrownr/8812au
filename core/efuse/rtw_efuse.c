@@ -1242,6 +1242,7 @@ exit:
 	return status;
 }
 
+
 u8 rtw_efuse_map_write(PADAPTER adapter, u16 addr, u16 cnts, u8 *data)
 {
 	struct dvobj_priv *d;
@@ -1354,6 +1355,7 @@ u8 rtw_BT_efuse_map_read(PADAPTER adapter, u16 addr, u16 cnts, u8 *data)
 
 	return _SUCCESS;
 }
+
 
 static u16
 hal_EfuseGetCurrentSize_BT(
@@ -3318,7 +3320,6 @@ u8 rtw_efuse_file_read(PADAPTER padapter, u8 *filepath, u8 *buf, u32 len)
 	while ((j < len) && (i < count)) {
 		if (ptmpbuf[i] == '\0')
 			break;
-
 		ptr = strpbrk(&ptmpbuf[i], " \t\n\r");
 		if (ptr) {
 			if (ptr == &ptmpbuf[i]) {

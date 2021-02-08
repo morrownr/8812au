@@ -5,34 +5,34 @@ ethernet network to extend the network to WiFi capable computers
 and devices in areas where the WiFi signal is weak or otherwise
 does not meet expectations.
 
-This document is for WiFi adapters based on the following chipset
+This document is for WiFi adapters based on the following chipsets
 ```
 rtl8812au
 
 ```
-2021-01-30
+2021-02-07
 
-Tested setup:
+##### Tested Setup
 
 - Raspberry Pi 4B (4gb)
 
-- Raspberry Pi OS (2021-01-11) (32 bit)
+- Raspberry Pi OS (2021-01-11) (32 bit) (kernel 5.10.11-v7l+)
 
-- Onboard WiFi disabled
+- Raspberry Pi Onboard WiFi disabled
 
 - USB WiFi Adapter based on the rtl8812au chipset
 
-- WiFi Adapter Driver: https://github.com/morrownr/8812au
+- WiFi Adapter Driver - https://github.com/morrownr/8812au
 
 - Ethernet connection providing internet
 	- Ethernet cables are CAT 6
-	- Internet is Fiber-optic at 1 GHz up and 1 GHz down
+	- Internet is Fiber-optic at 1 Gbps up and 1 Gbps down
 
 ##### Steps
 
 1. Disable Raspberry Pi onboard WiFi.
 
-Note: Disregard if not installing to Raspberry Pi hardware.
+Note: Disregard this step if not installing to Raspberry Pi hardware.
 ```
 $ sudo nano /boot/config.txt
 ```
@@ -50,7 +50,12 @@ https://github.com/morrownr/8812au
 
 -----
 
-3. Change driver options (to allow full speed operation.)
+3. Change driver options (to allow high speed operation.)
+
+Note: Some USB 3 ports, cables and adapters do not work well
+when pushed with high speed settings, therefore, it is recommended
+that your initial troubleshooting step should be to return the two
+settings below to default.
 ```
 $ sudo nano /etc/modprobe.d/8812au.conf
 ```
@@ -161,53 +166,72 @@ File contents
 ```
 # hostapd.conf
 # https://w1.fi/hostapd/
-# rtl8812au based USB WiFi Adapter
-# 5g, 80211ac, channel width 80, 867 Mb/s
+# Supports: 2g, 5g, 80211n, 80211ac, WPA2-AES, WPA3-SAE
 
 # change the interface name to match your system, if necessary
 interface=wlan0
+
 bridge=br0
 driver=nl80211
 ctrl_interface=/var/run/hostapd
 ctrl_interface_group=0
 
+# change as desired
 ssid=pi
+
+# change as desired
 wpa_passphrase=raspberry
 
+# change as needed
 country_code=US
+
 ieee80211d=1
 ieee80211h=1
 
-# 2g
+# 2g (b/g/n)
 #hw_mode=g
-#channel=7
+#channel=6
 
-# 5g
+# 5g (a/n/ac)
 hw_mode=a
 channel=36
 #channel=149
 
 macaddr_acl=0
-auth_algs=3
+auth_algs=1
 ignore_broadcast_ssid=0
 wmm_enabled=1
 wpa=2
+# WPA-2 AES only
 wpa_key_mgmt=WPA-PSK
-wpa_pairwise=CCMP
+# WPA-2 AES and WPA-3 SAE
+#wpa_key_mgmt=WPA-PSK SAE
 rsn_pairwise=CCMP
+# required for WPA-3 SAE
+#ieee80211w=2
 
 # IEEE 802.11n related configuration
 ieee80211n=1
 
-# 8812au
+# 8812bu/8812au/8814au/8811cu/8811au
+# 2g
+#ht_capab=[SHORT-GI-20][MAX-AMSDU-7935]
+# 5g
 ht_capab=[HT40+][SHORT-GI-20][SHORT-GI-40][MAX-AMSDU-7935]
 
 # IEEE 802.11ac related configuration
+# 5g
 ieee80211ac=1
 
-# 8812au
+# 8812bu/8812au/8814au/8811cu/8811au
+# 5g
 vht_capab=[MAX-A-MPDU-LEN-EXP3][MAX-MPDU-11454][SHORT-GI-80][HTC-VHT]
 
+# 5g (enable 80 Mhz channel width)
+# Note: Some USB 3 ports, cables and adapters do not work well
+# when pushed with high speed settings, therefore, it is recommended
+# that you deactivate the two lines below early in the troubleshooting
+# process.
 vht_oper_chwidth=1
 vht_oper_centr_freq_seg0_idx=42
 #vht_oper_centr_freq_seg0_idx=155
@@ -237,4 +261,31 @@ $ sudo reboot
 16. Enjoy!
 
 -----
+
+##### iperf3 results
+```
+$ iperf3 -c 192.168.1.40
+Connecting to host 192.168.1.40, port 5201
+[  5] local 192.168.1.83 port 39664 connected to 192.168.1.40 port 5201
+[ ID] Interval           Transfer     Bitrate         Retr  Cwnd
+[  5]   0.00-1.00   sec  51.4 MBytes   431 Mbits/sec    0   1.20 MBytes 
+[  5]   1.00-2.00   sec  56.2 MBytes   472 Mbits/sec    0   1.66 MBytes 
+[  5]   2.00-3.00   sec  56.2 MBytes   472 Mbits/sec    0   1.83 MBytes
+[  5]   3.00-4.00   sec  56.2 MBytes   472 Mbits/sec    0   1.83 MBytes 
+[  5]   4.00-5.00   sec  56.2 MBytes   472 Mbits/sec    0   1.92 MBytes 
+[  5]   5.00-6.00   sec  56.2 MBytes   472 Mbits/sec    0   2.02 MBytes 
+[  5]   6.00-7.00   sec  57.5 MBytes   482 Mbits/sec    0   2.02 MBytes 
+[  5]   7.00-8.00   sec  57.5 MBytes   482 Mbits/sec    0   2.13 MBytes 
+[  5]   8.00-9.00   sec  56.2 MBytes   472 Mbits/sec    0   2.13 MBytes 
+[  5]   9.00-10.00  sec  56.2 MBytes   472 Mbits/sec    0   2.24 MBytes 
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-10.00  sec   560 MBytes   470 Mbits/sec    0             sender
+[  5]   0.00-10.01  sec   557 MBytes   467 Mbits/sec                  receiver
+
+iperf Done.
+
+```
+Note: The Raspi 4b is overclocked to 2.0 GHz.
+
 

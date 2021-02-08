@@ -1,4 +1,4 @@
-Monitor Mode using iw and ip
+Monitor Mode using ```iw``` and ```ip```
 
 2021-02-08
 
@@ -57,17 +57,17 @@ $ sudo iw dev
 
 Change MAC Address and Enter Monitor Mode
 ```
-airmon-ng check kill
+$ sudo airmon-ng check kill
 
-sudo ip link show
+$ sudo ip link show
 
-sudo ip link set dev <your device here> down
+$ sudo ip link set dev <your device here> down
 
-sudo ip link set dev <your device here> address <your new mac address>
+$ sudo ip link set dev <your device here> address <your new mac address>
 
-sudo iw <your device here> set monitor control
+$ sudo iw <your device here> set monitor control
 
-sudo ip link set dev <your device here> up
+$ sudo ip link set dev <your device here> up
 
-iw dev
+$ iw dev
 ```

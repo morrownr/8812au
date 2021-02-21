@@ -28,8 +28,8 @@
 - Supported interface modes:
   * IBSS
   * Managed
-  * AP (WiFi Hotspot) (Master mode)
-  * Monitor
+  * AP (see Bridged_Wireless_Access_Point.md)
+  * Monitor (see Monitor_Mode.md)
   * P2P-client
   * P2P-GO
 - USB mode control

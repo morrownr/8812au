@@ -164,21 +164,21 @@ File contents
 # 2g, 5g, a/b/g/n/ac
 # 2021-02-20
 
-# needs to match your system
+# Needs to match your system
 interface=wlan0
-#
+
 bridge=br0
 driver=nl80211
 ctrl_interface=/var/run/hostapd
 #ctrl_interface_group=0
 
-# change as desired
+# Change as desired
 ssid=pi
 
-# change as required
+# Change as required
 country_code=US
 
-# enable DFS channels
+# Enable DFS channels
 #ieee80211d=1
 #ieee80211h=1
 
@@ -191,7 +191,6 @@ hw_mode=a
 channel=36
 # channel=149
 
-#
 beacon_int=100
 dtim_period=1
 max_num_sta=32
@@ -200,14 +199,12 @@ ignore_broadcast_ssid=0
 rts_threshold=2347
 fragm_threshold=2346
 send_probe_response=1
-#
 
-#
 # Security
 auth_algs=1
 wpa=2
 wpa_pairwise=CCMP
-# change as desired
+# Change as desired
 wpa_passphrase=raspberry
 # WPA-2 AES
 wpa_key_mgmt=WPA-PSK WPA-PSK-SHA256

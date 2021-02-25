@@ -10,11 +10,10 @@ Known issues:
 - WPA3-SAE operation is not testing good at this time and is disabled.
 
 This document is for WiFi adapters based on the following chipsets
-
-rtl8812au
-
 ```
-2021-02-23
+rtl8812au
+```
+2021-02-25
 
 ##### Tested Setup
 
@@ -35,7 +34,6 @@ rtl8812au
 ##### Steps
 
 1. Disable Raspberry Pi onboard WiFi.
-
 ```
 $ sudo nano /boot/config.txt
 ```

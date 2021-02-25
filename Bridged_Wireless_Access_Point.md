@@ -5,11 +5,16 @@ ethernet network to extend the network to WiFi capable computers
 and devices in areas where the WiFi signal is weak or otherwise
 does not meet expectations.
 
-This document is for WiFi adapters based on the following chipset
-```
+Known issues:
+
+- WPA3-SAE operation is not testing good at this time and is disabled.
+
+This document is for WiFi adapters based on the following chipsets
+
 rtl8812au
+
 ```
-2021-02-20
+2021-02-23
 
 ##### Tested Setup
 
@@ -31,7 +36,6 @@ rtl8812au
 
 1. Disable Raspberry Pi onboard WiFi.
 
-Note: Disregard this step if not installing to Raspberry Pi hardware.
 ```
 $ sudo nano /boot/config.txt
 ```
@@ -45,7 +49,7 @@ dtoverlay=disable-wifi
 
 Follow the instructions at this site
 
-https://github.com/morrownr/8812au
+https://github.com/morrownr/8812au.git
 
 -----
 
@@ -55,7 +59,7 @@ https://github.com/morrownr/8812au
 $ sudo nano /etc/modprobe.d/8812au.conf
 ```
 ```
-rtw_vht_enable=2      (enable 80 Mhz channel width - 80211AC support)
+rtw_vht_enable=2      (enable 80 Mhz channel width)
 rtw_switch_usb_mode=1 (enable USB 3 support)
 ```
 -----
@@ -170,7 +174,7 @@ interface=wlan0
 bridge=br0
 driver=nl80211
 ctrl_interface=/var/run/hostapd
-#ctrl_interface_group=0
+ctrl_interface_group=0
 
 # Change as desired
 ssid=pi
@@ -179,8 +183,8 @@ ssid=pi
 country_code=US
 
 # Enable DFS channels
-#ieee80211d=1
-#ieee80211h=1
+ieee80211d=1
+ieee80211h=1
 
 # 2g (b/g/n)
 #hw_mode=g
@@ -189,7 +193,7 @@ country_code=US
 # 5g (a/n/ac)
 hw_mode=a
 channel=36
-# channel=149
+#channel=149
 
 beacon_int=100
 dtim_period=1
@@ -202,6 +206,7 @@ send_probe_response=1
 
 # Security
 auth_algs=1
+ignore_broadcast_ssid=0
 wpa=2
 wpa_pairwise=CCMP
 # Change as desired
@@ -223,32 +228,33 @@ rsn_pairwise=CCMP
 # IEEE 802.11n
 # 2g and 5g
 ieee80211n=1
+wmm_enabled=1
 #
-# rtl8812au
+# Note: Capabilities can vary even between adapters with the same chipset
 #
-# 20 MHz channel width (recommended for use with 2g channels)
-ht_capab=[SHORT-GI-20][MAX-AMSDU-7935]
-#
-# 40 MHz channel width for use with 5g if desired
-#ht_capab=[HT40+][HT40-][SHORT-GI-20][SHORT-GI-40][MAX-AMSDU-7935][DSSS_CCK-40]
+# 8812au
+# 20 MHz channel width for band 1 - 2g
+#ht_capab=[SHORT-GI-20][MAX-AMSDU-7935]
+# 40 MHz channel width for band 2 - 5g
+ht_capab=[HT40+][HT40-][SHORT-GI-20][SHORT-GI-40][MAX-AMSDU-7935]
 
 # IEEE 802.11ac
 # 5g
 ieee80211ac=1
 #
-# rtl8812au
+# Note: Capabilities can vary even between adapters with the same chipset
 #
+# 8812au
 vht_capab=[MAX-MPDU-11454][SHORT-GI-80][TX-STBC-2BY1][SU-BEAMFORMEE][HTC-VHT]
-#
 
-# The next line is required for 80 MHz width channel operation
+# Turn on 80 MHz channel width
 vht_oper_chwidth=1
 #
-# Use the next line with channel 36
+# Use with channel 36
 vht_oper_centr_freq_seg0_idx=42
 #
-# Use the next with channel 149
-# vht_oper_centr_freq_seg0_idx=155
+# Use with channel 149
+#vht_oper_centr_freq_seg0_idx=155
 
 # Event logger
 #logger_syslog=-1
@@ -257,7 +263,6 @@ vht_oper_centr_freq_seg0_idx=42
 #logger_stdout_level=2
 
 # WMM
-wmm_enabled=1
 #uapsd_advertisement_enabled=1
 #wmm_ac_bk_cwmin=4
 #wmm_ac_bk_cwmax=10

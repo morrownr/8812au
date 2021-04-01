@@ -122,7 +122,7 @@ Step 1: Open a terminal (Ctrl+Alt+T)
 
 Step 2: Update the system (select the option for the OS you are using)
 ```
-    Option for Debian based distributions such as Ubuntu, Linux Mint and the Raspberry Pi OS
+    Option for Debian based distributions such as Ubuntu, Linux Mint, Kali and the Raspberry Pi OS
 
     $ sudo apt-get update
 ```
@@ -138,17 +138,17 @@ Step 3: Install the required packages (select the option for the OS you are usin
     $ sudo apt-get install -y raspberrypi-kernel-headers bc build-essential dkms git
 ```
 ```
-    Option for LMDE (Debian based)
+    Option for Debian, Kali or Linux Mint Debian Edition (LMDE)
 
-    $ sudo apt-get install -y linux-headers-$(uname -r) build-essential dkms git
+    $ sudo apt-get install -y linux-headers-$(uname -r) build-essential dkms git libelf-dev
 ```
 ```
-    Option for Linux Mint or Ubuntu (all flavors)
+    Option for Ubuntu (all flavors) or Linux Mint
 
     $ sudo apt-get install -y dkms git
 ```
 ```
-    Option for Arch based distributions such as Manjaro
+    Option for Arch or Manjaro
 
     $ sudo pacman -S --noconfirm linux-headers dkms git
 ```
@@ -169,7 +169,9 @@ Step 7: Move to the newly created driver directory
 ```bash
 $ cd ~/src/8812au
 ```
-Step 8: Run a preparation script if required (Raspberry Pi *hardware* requires a preparation script)
+Step 8: Warning: this step only applies if you are installing to Raspberry Pi *hardware*.
+
+Run a preparation script
 ```
     Option for 32 bit operating systems to be installed to Raspberry Pi hardware
 
@@ -292,6 +294,13 @@ Bitrate
 482 Mbits/sec
 ```
 ### Removal of the Driver
+
+Note: This script should be used in the following situations:
+
+- the driver is no longer needed
+- a fresh start with default settings is needed
+- a new version of the driver needs to be installed
+- a major operating system upgrade is going to be applied
 
 Step 1: Open a terminal (Ctrl+Alt+T)
 

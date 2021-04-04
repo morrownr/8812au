@@ -85,6 +85,7 @@ https://github.com/morrownr/USB-WiFi
 ### Download Locations for Tested Linux Distributions
 
 - [Arch Linux](https://www.archlinux.org)
+- [Kali Linux](https://www.kali.org/)
 - [Linux Mint](https://www.linuxmint.com)
 - [Manjaro](https://manjaro.org)
 - [Raspberry Pi OS](https://www.raspberrypi.org)

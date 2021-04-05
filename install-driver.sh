@@ -34,6 +34,7 @@ cp -rf "${DRV_DIR}" /usr/src/${DRV_NAME}-${DRV_VERSION}
 echo "Copying ${OPTIONS_FILE} to: /etc/modprobe.d"
 cp -f ${OPTIONS_FILE} /etc/modprobe.d
 echo "All required files have been copied to the proper places."
+echo "This process is CPU intensive and can take a considerable amount of time."
 
 dkms add -m ${DRV_NAME} -v ${DRV_VERSION}
 # dkms add ${DRV_NAME}/${DRV_VERSION}

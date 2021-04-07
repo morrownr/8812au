@@ -1,4 +1,4 @@
-## Monitor Mode using ```iw``` and ```ip```
+## Monitor Mode using `iw` and `ip`
 
 2021-02-19
 

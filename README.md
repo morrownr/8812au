@@ -65,6 +65,8 @@ https://github.com/morrownr/USB-WiFi
 - Arch Linux (kernel 5.4)
 - Arch Linux (kernel 5.9)
 
+- Fedora (kernel 5.11)
+
 - Kali Linux (kernel 5.10)
 
 - Linux Mint 20.1 (Linux Mint based on Ubuntu) (kernel 5.4)
@@ -85,6 +87,7 @@ https://github.com/morrownr/USB-WiFi
 ### Download Locations for Tested Linux Distributions
 
 - [Arch Linux](https://www.archlinux.org)
+- [Fedora](https://getfedora.org)
 - [Kali Linux](https://www.kali.org/)
 - [Linux Mint](https://www.linuxmint.com)
 - [Manjaro](https://manjaro.org)
@@ -141,6 +144,11 @@ Step 2: Update the system (select the option for the OS you are using)
 
     $ sudo pacman -Syu
 ```
+```
+    Option for Fedora based distributions
+
+    # sudo dnf -y update
+```
 Step 3: Install the required packages (select the option for the OS you are using)
 ```
     Option for Raspberry Pi OS
@@ -161,6 +169,11 @@ Step 3: Install the required packages (select the option for the OS you are usin
     Option for Arch or Manjaro
 
     $ sudo pacman -S --noconfirm linux-headers dkms git
+```
+```
+    Option for Fedora
+
+    # sudo dnf -y install git dkms kernel-devel kernel-debug-devel
 ```
 Step 4: Create a directory to hold the downloaded driver
 

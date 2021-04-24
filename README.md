@@ -37,8 +37,8 @@
 - Power saving control
 - VHT control (allows 80 MHz channel width in AP mode)
 
-Note: WPA3-AES does not work. If you need a comparable adapter that does support
-WPA3-AES, I suggest an Alfa AWUS036ACM (mt7612u chipset). You can get more
+Note: WPA3 does not work. If you need a comparable adapter that does support
+WPA3, I suggest an Alfa AWUS036ACM (mt7612u chipset). You can get more
 information and links to this adapter at the following site:
 
 https://github.com/morrownr/USB-WiFi

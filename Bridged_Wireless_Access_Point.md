@@ -12,11 +12,11 @@ with a USB 3 WiFi adapter for 5g.
 
 #### Information
 
-This setup does not support WPA3-SAE personal.
+This setup does not support WPA3-SAE personal because the Realtek driver does not support it.
 
 -----
 
-2021-04-07
+2021-05-04
 
 #### Tested Setup
 
@@ -94,6 +94,9 @@ dtoverlay=disable-bt
 # overclock CPU
 over_voltage=1
 arm_freq=1600
+
+# turn off WiFi
+dtoverlay=disable-wifi
 ```
 -----
 
@@ -164,14 +167,14 @@ $ sudo systemctl enable systemd-networkd
 ```
 -----
 
-Block the eth0 and wlan0 interfaces from being processed, and let
-dhcpcd configure only br0 via DHCP.
+Block the eth0 and wlan0 interfaces from being processed, and let dhcpcd
+configure only br0 via DHCP.
 ```
 $ sudo nano /etc/dhcpcd.conf
 ```
 Add the following line above the first `interface xxx` line, if any
 ```
-denyinterfaces wlan0 eth0
+denyinterfaces eth0 wlan0
 ```
 Go to the end of the file and add the following line
 ```
@@ -252,12 +255,12 @@ wpa_key_mgmt=WPA-PSK
 # WPA-3 SAE
 #wpa_key_mgmt=SAE
 #wpa_group_rekey=1800
-# ieee80211w=1 is required for WPA-3 Transitional
+# ieee80211w=1 is required for WPA-3 SAE Transitional
 # ieee80211w=2 is required for WPA-3 SAE
 #ieee80211w=1
 # if parameter is not set, 19 is the default value.
 #sae_groups=19 20 21 25 26
-# required for WPA-3 Transitional
+# required for WPA-3 SAETransitional
 #sae_require_mfp=1
 # if parameter is not 9 set, 5 is the default value.
 #sae_anti_clogging_threshold=10
@@ -269,30 +272,26 @@ wmm_enabled=1
 # Note: Capabilities can vary even between adapters with the same chipset
 #
 # rtl8812au - rtl8811au -  rtl8812bu - rtl8811cu - rtl8814au
-# 20 MHz channel width for band 1 - 2g
+# band 1 - 2g - 20 MHz channel width
 #ht_capab=[SHORT-GI-20][MAX-AMSDU-7935]
-# 40 MHz channel width for band 2 - 5g
+# band 2 - 5g - 40 MHz channel width
 ht_capab=[HT40+][HT40-][SHORT-GI-20][SHORT-GI-40][MAX-AMSDU-7935]
 
 # IEEE 802.11ac
-# 5g
 ieee80211ac=1
 #
 # rtl8812au - rtl8811au -  rtl8812bu - rtl8811cu - rtl8814au
-# band 2 - 5g
+# band 2 - 5g - 80 MHz channel width
 vht_capab=[MAX-MPDU-11454][SHORT-GI-80][HTC-VHT]
 # Note: [TX-STBC-2BY1] causes problems
 
-# Required for 80 MHz width channel operation
-# band 2 - 5g
+# Required for 80 MHz width channel operation on band 2 - 5g
 vht_oper_chwidth=1
 #
-# Use the next line with channel 36
-# band 2 - 5g
+# Use the next line with channel 36  (36 + 6 = 42) band 2 - 5g
 vht_oper_centr_freq_seg0_idx=42
 #
-# Use the next with channel 149
-# band 2 - 5g
+# Use the next line with channel 149 (149 + 6 = 155) band 2 - 5g
 #vht_oper_centr_freq_seg0_idx=155
 
 # Event logger - as desired
@@ -357,7 +356,7 @@ DAEMON_OPTS="-d -K -f /home/pi/hostapd.log"
 ```
 -----
 
-15. Reboot the system.
+Reboot system.
 
 $ sudo reboot
 

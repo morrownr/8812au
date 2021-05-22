@@ -46,10 +46,16 @@ hardware. The primary problem has to do with the backfeeding of
 current into the Raspberry Pi. I have avoided using a powered hub
 in this setup to enable a very high degree of stability.
 
-Note: rtl88XXxu chipset based USB adapters require from 504 mA of power
-up to well over 800 mA of power depending on the adapter. The Raspberry
+Note: The rtl88XXxu chipset based USB3 WiFi adapters require from 504 mA of
+power up to well over 800 mA of power depending on the adapter. The Raspberry
 Pi 3B, 3B+ and 4B USB subsystems are only able to supple a total of 1200
 mA of power to all attached devices.
+
+Note: The Alfa AWUS036ACM adapter, mt7612u based adapter, requests a maximum
+of 400 mA from the USB subsystem during initialization. Testing with a meter
+shows actual usage of 360 mA during heavy load and usage of 180 mA during
+light loads. This is much lower power usage than most AC1200 class adapters
+which makes this adapter a good choice for a Raspberry Pi based access point.
 
 
 #### Setup Steps
@@ -105,7 +111,7 @@ users forget to upgrade their system on a regular basis, maybe it is a good idea
 
 Reduce overall power consumption and overclock the CPU a modest amount.
 
-Note: all items in this step are optional and some items are specific to
+Note: All items in this step are optional and some items are specific to
 the Raspberry Pi 4B. If installing to a Raspberry Pi 3b or 3b+ you will
 need to use the appropriate settings for that hardward.
 
@@ -383,7 +389,7 @@ sudo systemctl enable systemd-networkd
 ```
 -----
 
-Create bridge interface (br0).
+Create bridge interface br0.
 
 Code:
 ```
@@ -472,3 +478,41 @@ Code:
 $ systemctl status hostapd
 
 $ systemctl status systemd-networkd
+```
+-----
+
+Autostarting iperf3
+
+Code:
+```
+sudo apt install iperf3
+```
+Code:
+```
+sudo nano /etc/systemd/system/iperf3.service
+```
+File contents
+```
+[Unit]
+Description=iPerf3 Service
+After=syslog.target network.target auditd.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/iperf3 -s
+
+[Install]
+WantedBy=multi-user.target
+```
+Code:
+```
+sudo systemctl enable iperf3
+```
+Check iperf3 status
+
+Code:
+```
+sudo systemctl status iperf3
+```
+
+-----

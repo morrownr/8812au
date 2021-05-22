@@ -45,9 +45,20 @@ mA of power to all attached devices.
 
 #### Setup Steps
 
-USB adapter driver installation should be performed and tested prior to
+-----
+
+USB WiFi adapter driver installation should be performed and tested prior to
 following this guide.
 
+-----
+
+Update system.
+
+```
+$ sudo apt update
+
+$ sudo apt full-upgrade
+```
 -----
 
 Reduce overall power consumption and overclock the CPU a modest amount.
@@ -69,6 +80,10 @@ dtparam=audio=off
 ```
 Add
 ```
+# overclock CPU
+over_voltage=1
+arm_freq=1600
+
 # turn off Mainboard LEDs
 dtoverlay=act-led
 
@@ -86,10 +101,6 @@ dtparam=eth_led1=4
 
 # turn off Bluetooth
 dtoverlay=disable-bt
-
-# overclock CPU
-over_voltage=1
-arm_freq=1600
 
 # turn off WiFi
 dtoverlay=disable-wifi
@@ -341,9 +352,9 @@ $ sudo rfkill unblock wlan
 -----
 
 Reboot system.
-
+```
 $ sudo reboot
-
+```
 -----
 
 End of installation.

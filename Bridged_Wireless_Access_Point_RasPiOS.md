@@ -73,7 +73,7 @@ disable_usb_sg=1
 
 Determine names and state of the network interfaces.
 ```
-$ ip a
+ip a
 ```
 Note: If the interface names are not `eth0` and `wlan0`,
 then the interface names used in your system will have to replace
@@ -84,9 +84,9 @@ then the interface names used in your system will have to replace
 Update system.
 
 ```
-$ sudo apt update
+sudo apt update
 
-$ sudo apt full-upgrade
+sudo apt full-upgrade
 ```
 -----
 
@@ -96,7 +96,7 @@ Note: all items in this step are optional and some items are specific to
 the Raspberry Pi 4B. If installing to a Raspberry Pi 3b or 3b+ you will
 need to use the appropriate settings for that hardward.
 ```
-$ sudo nano /boot/config.txt
+sudo nano /boot/config.txt
 ```
 Change
 ```
@@ -138,22 +138,22 @@ dtoverlay=disable-wifi
 
 Install needed package. Website - [hostapd](https://w1.fi/hostapd/)
 ```
-$ sudo apt install hostapd
+sudo apt install hostapd
 ```
 -----
 
 Enable the wireless access point service and set it to start when your
 Raspberry Pi boots.
 ```
-$ sudo systemctl unmask hostapd
+sudo systemctl unmask hostapd
 
-$ sudo systemctl enable hostapd
+sudo systemctl enable hostapd
 ```
 -----
 
 Create hostapd configuration file.
 ```
-$ sudo nano /etc/hostapd/hostapd.conf
+sudo nano /etc/hostapd/hostapd.conf
 ```
 File contents
 ```
@@ -169,7 +169,7 @@ File contents
 # Country: US
 
 # needs to match wireless interface in your system
-interface=<wlan0>
+interface=wlan0
 
 # needs to match bridge interface name in your system
 bridge=br0
@@ -326,7 +326,7 @@ Establish hostapd conf file and log file locations.
 
 Note: Make sure to change <your_home> to your home directory.
 ```
-$ sudo nano /etc/default/hostapd
+sudo nano /etc/default/hostapd
 ```
 Add to bottom of file
 ```
@@ -338,7 +338,7 @@ DAEMON_OPTS="-d -K -f /home/<your_home>/hostapd.log"
 Block the eth0 and wlan0 interfaces from being processed, and let dhcpcd
 configure only br0 via DHCP.
 ```
-$ sudo nano /etc/dhcpcd.conf
+sudo nano /etc/dhcpcd.conf
 ```
 Add the following line above the first `interface xxx` line, if any
 ```
@@ -352,13 +352,13 @@ interface br0
 
 Enable systemd-networkd service. Website - [systemd-network](https://www.freedesktop.org/software/systemd/man/systemd.network.html)
 ```
-$ sudo systemctl enable systemd-networkd
+sudo systemctl enable systemd-networkd
 ```
 -----
 
 Create bridge interface (br0).
 ```
-$ sudo nano /etc/systemd/network/10-bridge-br0-create.netdev
+sudo nano /etc/systemd/network/10-bridge-br0-create.netdev
 ```
 File contents
 ```
@@ -370,12 +370,12 @@ Kind=bridge
 
 Bind ethernet interface.
 ```
-$ sudo nano /etc/systemd/network/20-bridge-br0-bind-ethernet.network
+sudo nano /etc/systemd/network/20-bridge-br0-bind-ethernet.network
 ```
 File contents
 ```
 [Match]
-Name=<eth0>
+Name=eth0
 
 [Network]
 Bridge=br0
@@ -384,7 +384,7 @@ Bridge=br0
 
 Configure bridge interface.
 ```
-$ sudo nano /etc/systemd/network/21-bridge-br0-config.network
+sudo nano /etc/systemd/network/21-bridge-br0-config.network
 ```
 Note: The contents of the Network block below should reflect the needs of your network.
 

@@ -72,6 +72,8 @@ disable_usb_sg=1
 -----
 
 Determine names and state of the network interfaces.
+
+Code:
 ```
 ip a
 ```
@@ -83,11 +85,22 @@ then the interface names used in your system will have to replace
 
 Update system.
 
+Code:
 ```
 sudo apt update
+```
 
+-----
+
+Upgrade system.
+
+Code:
+```
 sudo apt full-upgrade
 ```
+Note: Upgrading system is mandatory in this case but since some users forget
+to upgrade their system on a regular basis, maybe it is a good idea.
+
 -----
 
 Reduce overall power consumption and overclock the CPU a modest amount.

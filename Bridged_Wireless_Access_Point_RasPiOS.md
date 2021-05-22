@@ -1,4 +1,4 @@
-## Bridged Wireless Access Point - RasPi - 5GHz
+## Bridged Wireless Access Point - RasPiOS
 
 A bridged wireless access point (aka Dumb AP) works within an existing
 ethernet network to add WiFi capability where it does not exist or to
@@ -20,7 +20,7 @@ WPA3-SAE will work with Mediatek 761x chipset based USB WiFI adapters.
 
 -----
 
-2021-05-20
+2021-05-21
 
 #### Tested Setup
 
@@ -30,7 +30,16 @@ Raspberry Pi OS (2021-03-04) (32 bit) (kernel 5.10.17-v7l+)
 
 Ethernet connection providing internet
 
-USB WiFi Adapter with rtl88XXxu chipset
+USB WiFi Adapter
+
+[Case](https://www.amazon.com/dp/B07X8RL8SL)
+
+[Right Angle USB Extender](https://www.amazon.com/dp/B07S6B5X76)
+
+[Power Supply](https://www.amazon.com/dp/B08C9VYLLK)
+
+Note: I use the case upside down. There are several little things that
+work better with the case upside down and no negatives that I can find.
 
 Note: Very few Powered USB 3 Hubs will work well with Raspberry Pi
 hardware. The primary problem has to do with the backfeeding of
@@ -47,8 +56,28 @@ mA of power to all attached devices.
 
 -----
 
-USB WiFi adapter driver installation should be performed and tested prior to
-following this guide.
+USB WiFi adapter driver installation, if required, should be performed and tested
+prior to continuing.
+
+Note: For USB3 adapters based on Realtek rtl88xx chipsets, the following module
+parameters may be needed for best performance:
+```
+rtw_vht_enable=2 rtw_switch_usb_mode=1
+```
+Note: For USB3 adapters based on Mediatek mt7612ux chipsets, the following module
+parameters may be needed for best performance:
+```
+disable_usb_sg=1
+```
+-----
+
+Determine names and state of the network interfaces.
+```
+$ ip a
+```
+Note: If the interface names are not `eth0` and `wlan0`,
+then the interface names used in your system will have to replace
+`eth0` and `wlan0` for the remainder of this document.
 
 -----
 
@@ -102,33 +131,12 @@ dtparam=eth_led1=4
 # turn off Bluetooth
 dtoverlay=disable-bt
 
-# turn off WiFi
+# turn off onboard WiFi
 dtoverlay=disable-wifi
 ```
 -----
 
-Update, upgrade and reboot system.
-
-```
-$ sudo apt update
-
-$ sudo apt full-upgrade
-
-$ sudo reboot
-```
------
-
-Determine names and state of the network interfaces.
-```
-$ ip a
-```
-Note: If the interface names are not `eth0` and `wlan0`,
-then the interface names used in your system will have to replace
-`eth0` and `wlan0` for the remainder of this document.
-
------
-
-Install hostapd. Website - [hostapd](https://w1.fi/hostapd/)
+Install needed package. Website - [hostapd](https://w1.fi/hostapd/)
 ```
 $ sudo apt install hostapd
 ```
@@ -199,6 +207,7 @@ fragm_threshold=2346
 wpa_passphrase=myPW1234
 auth_algs=1
 ignore_broadcast_ssid=0
+# wpa=2 is required for WPA2 and WPA3 (read the docs)
 wpa=2
 rsn_pairwise=CCMP
 # only one wpa_key_mgmt= line should be active.
@@ -219,11 +228,11 @@ wpa_key_mgmt=WPA-PSK
 # if parameter is not 9 set, 5 is the default value.
 #sae_anti_clogging_threshold=10
 
+# Note: Capabilities can vary even between adapters with the same chipset
+#
 # IEEE 802.11n
 ieee80211n=1
 wmm_enabled=1
-#
-# Note: Capabilities can vary between adapters with the same chipset.
 #
 # Note: Only one ht_capab= line and one vht_capab= should be active. The
 # content of these lines is determined by the capabilities of your adapter.
@@ -253,7 +262,6 @@ vht_capab=[MAX-MPDU-11454][SHORT-GI-80][HTC-VHT]
 # band 2 - 5g - 80 MHz channel width on 11ac
 #vht_capab=[RXLDPC][SHORT-GI-80][TX-STBC-2BY1][RX-STBC-1][MAX-A-MPDU-LEN-EXP3][RX-ANTENNA-PATTERN][TX-ANTENNA-PATTERN]
 #
-
 # Required for 80 MHz width channel operation on band 2 - 5g
 vht_oper_chwidth=1
 #
@@ -262,6 +270,53 @@ vht_oper_centr_freq_seg0_idx=42
 #
 # Use the next line with channel 149 (149 + 6 = 155) band 2 - 5g
 #vht_oper_centr_freq_seg0_idx=155
+
+# Event logger - as desired
+#logger_syslog=-1
+#logger_syslog_level=2
+#logger_stdout=-1
+#logger_stdout_level=2
+
+# WMM - as desired
+#uapsd_advertisement_enabled=1
+#wmm_ac_bk_cwmin=4
+#wmm_ac_bk_cwmax=10
+#wmm_ac_bk_aifs=7
+#wmm_ac_bk_txop_limit=0
+#wmm_ac_bk_acm=0
+#wmm_ac_be_aifs=3
+#wmm_ac_be_cwmin=4
+#wmm_ac_be_cwmax=10
+#wmm_ac_be_txop_limit=0
+#wmm_ac_be_acm=0
+#wmm_ac_vi_aifs=2
+#wmm_ac_vi_cwmin=3
+#wmm_ac_vi_cwmax=4
+#wmm_ac_vi_txop_limit=94
+#wmm_ac_vi_acm=0
+#wmm_ac_vo_aifs=2
+#wmm_ac_vo_cwmin=2
+#wmm_ac_vo_cwmax=3
+#wmm_ac_vo_txop_limit=47
+#wmm_ac_vo_acm=0
+
+# TX queue parameters - as desired
+#tx_queue_data3_aifs=7
+#tx_queue_data3_cwmin=15
+#tx_queue_data3_cwmax=1023
+#tx_queue_data3_burst=0
+#tx_queue_data2_aifs=3
+#tx_queue_data2_cwmin=15
+#tx_queue_data2_cwmax=63
+#tx_queue_data2_burst=0
+#tx_queue_data1_aifs=1
+#tx_queue_data1_cwmin=7
+#tx_queue_data1_cwmax=15
+#tx_queue_data1_burst=3.0
+#tx_queue_data0_aifs=1
+#tx_queue_data0_cwmin=3
+#tx_queue_data0_cwmax=7
+#tx_queue_data0_burst=1.5
 
 # end of hostapd.conf
 ```

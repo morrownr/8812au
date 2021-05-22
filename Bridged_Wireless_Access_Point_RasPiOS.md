@@ -98,8 +98,8 @@ Code:
 ```
 sudo apt full-upgrade
 ```
-Note: Upgrading system is mandatory in this case but since some users forget
-to upgrade their system on a regular basis, maybe it is a good idea.
+Note: Upgrading system is not mandatory for this installation but since some
+users forget to upgrade their system on a regular basis, maybe it is a good idea.
 
 -----
 
@@ -108,6 +108,8 @@ Reduce overall power consumption and overclock the CPU a modest amount.
 Note: all items in this step are optional and some items are specific to
 the Raspberry Pi 4B. If installing to a Raspberry Pi 3b or 3b+ you will
 need to use the appropriate settings for that hardward.
+
+Code:
 ```
 sudo nano /boot/config.txt
 ```
@@ -150,6 +152,8 @@ dtoverlay=disable-wifi
 -----
 
 Install needed package. Website - [hostapd](https://w1.fi/hostapd/)
+
+Code:
 ```
 sudo apt install hostapd
 ```
@@ -157,6 +161,8 @@ sudo apt install hostapd
 
 Enable the wireless access point service and set it to start when your
 Raspberry Pi boots.
+
+Code:
 ```
 sudo systemctl unmask hostapd
 
@@ -165,6 +171,8 @@ sudo systemctl enable hostapd
 -----
 
 Create hostapd configuration file.
+
+Code:
 ```
 sudo nano /etc/hostapd/hostapd.conf
 ```
@@ -338,6 +346,8 @@ vht_oper_centr_freq_seg0_idx=42
 Establish hostapd conf file and log file locations.
 
 Note: Make sure to change <your_home> to your home directory.
+
+Code:
 ```
 sudo nano /etc/default/hostapd
 ```
@@ -350,6 +360,8 @@ DAEMON_OPTS="-d -K -f /home/<your_home>/hostapd.log"
 
 Block the eth0 and wlan0 interfaces from being processed, and let dhcpcd
 configure only br0 via DHCP.
+
+Code:
 ```
 sudo nano /etc/dhcpcd.conf
 ```
@@ -364,12 +376,16 @@ interface br0
 -----
 
 Enable systemd-networkd service. Website - [systemd-network](https://www.freedesktop.org/software/systemd/man/systemd.network.html)
+
+Code:
 ```
 sudo systemctl enable systemd-networkd
 ```
 -----
 
 Create bridge interface (br0).
+
+Code:
 ```
 sudo nano /etc/systemd/network/10-bridge-br0-create.netdev
 ```
@@ -382,6 +398,8 @@ Kind=bridge
 -----
 
 Bind ethernet interface.
+
+Code:
 ```
 sudo nano /etc/systemd/network/20-bridge-br0-bind-ethernet.network
 ```
@@ -396,6 +414,8 @@ Bridge=br0
 -----
 
 Configure bridge interface.
+
+Code:
 ```
 sudo nano /etc/systemd/network/21-bridge-br0-config.network
 ```
@@ -414,12 +434,16 @@ DNS=8.8.8.8
 -----
 
 Ensure WiFi radio not blocked.
+
+Code:
 ```
 $ sudo rfkill unblock wlan
 ```
 -----
 
 Reboot system.
+
+Code:
 ```
 $ sudo reboot
 ```
@@ -434,12 +458,16 @@ Notes:
 -----
 
 Restart systemd-networkd service.
+
+Code:
 ```
 $ sudo systemctl restart systemd-networkd
 ```
 -----
 
 Check status of the services.
+
+Code:
 ```
 $ systemctl status hostapd
 

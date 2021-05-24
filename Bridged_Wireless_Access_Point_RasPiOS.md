@@ -1,3 +1,5 @@
+2021-05-24 - Modifications and testing in progress.
+
 ## Bridged Wireless Access Point - RasPiOS
 
 A bridged wireless access point (aka Dumb AP) works within an existing
@@ -5,10 +7,13 @@ ethernet network to add WiFi capability where it does not exist or to
 extend the network to WiFi capable computers and devices in areas where
 the WiFi signal is weak or otherwise does not meet expectations.
 
-#### Single Band
+#### Single Band or Dual Band - Your Choice
 
-This document outlines a single band 5 GHz setup using the Raspberry Pi 4B
-with a USB 3 WiFi adapter.
+This document outlines single band and dual band WiFi setups using a
+Raspberry Pi 3B, 3B+ or 4B with an AC1200 or above USB 3 WiFi adapter for 5 GHz
+band and either an additional external WiFi adapter or internal WiFi for 2.4 GHz
+band. There is a lot of flexibility and capability available with this type of
+setup.
 
 #### Information
 
@@ -20,7 +25,7 @@ WPA3-SAE will work with Mediatek 761x chipset based USB WiFI adapters.
 
 -----
 
-2021-05-21
+2021-05-22
 
 #### Tested Setup
 
@@ -43,8 +48,9 @@ work better with the case upside down and no negatives that I can find.
 
 Note: Very few Powered USB 3 Hubs will work well with Raspberry Pi
 hardware. The primary problem has to do with the backfeeding of
-current into the Raspberry Pi. I have avoided using a powered hub
-in this setup to enable a very high degree of stability.
+current into the Raspberry Pi. One that seems to work well here is:
+
+[Transcend USB 3.0 4-Port Hub TS-HUB3K](https://www.amazon.com/gp/product/B005D69QD8)
 
 Note: The rtl88XXxu chipset based USB3 WiFi adapters require from 504 mA of
 power up to well over 800 mA of power depending on the adapter. The Raspberry
@@ -65,27 +71,41 @@ which makes this adapter a good choice for a Raspberry Pi based access point.
 USB WiFi adapter driver installation, if required, should be performed and tested
 prior to continuing.
 
-Note: For USB3 adapters based on Realtek rtl88xx chipsets, the following module
-parameters may be needed for best performance:
+Note: For USB3 adapters based on the Realtek rtl8812au, rtl8814au, and rtl8812bu
+chipsets, the following module parameters may be needed for best performance
+when the adapter is set to support 5 GHz band:
 ```
 rtw_vht_enable=2 rtw_switch_usb_mode=1
 ```
+Note: For USB3 adapters based on the Realtek rtl8812au, rtl8814au, and rtl8812bu
+chipsets, the following module parameters may be needed for best performance
+when the adapter is set to support 2.4 GHz band:
+```
+rtw_vht_enable=1 rtw_switch_usb_mode=2
+```
 Note: For USB3 adapters based on Mediatek mt7612ux chipsets, the following module
-parameters may be needed for best performance:
+parameter may be needed for best performance:
 ```
 disable_usb_sg=1
 ```
+Note: For this access point setup to support WPA3-SAE in a dual band setup, two
+USB WiFi adapters with Mediatek or Atheros chipsets are required as the Realtek
+and internal Raspberry Pi WiFi drivers do not support WPA3-SAE as of the date
+of this document.
+
+The follow site provides links to adapters that support WPA3-SAE: [USB-WIFI](https://github.com/morrownr/USB-WiFi)
+
 -----
 
-Determine names and state of the network interfaces.
+Determine name and state of the network interfaces.
 
 Code:
 ```
 ip a
 ```
-Note: If the interface names are not `eth0` and `wlan0`,
+Note: If the interface names are not `eth0`, `wlan0` and `wlan1`,
 then the interface names used in your system will have to replace
-`eth0` and `wlan0` for the remainder of this document.
+`eth0`, `wlan0` and `wlan1` for the remainder of this document.
 
 -----
 
@@ -130,10 +150,6 @@ dtparam=audio=off
 ```
 Add
 ```
-# overclock CPU
-over_voltage=1
-arm_freq=1600
-
 # turn off Mainboard LEDs
 dtoverlay=act-led
 
@@ -154,6 +170,10 @@ dtoverlay=disable-bt
 
 # turn off onboard WiFi
 dtoverlay=disable-wifi
+
+# overclock CPU
+over_voltage=1
+arm_freq=1600
 ```
 -----
 
@@ -176,21 +196,24 @@ sudo systemctl enable hostapd
 ```
 -----
 
-Create hostapd configuration file.
+Note: The below steps include creating two hostapd configurations files but
+only one is needed if using a single band setup.
+
+Create hostapd configuration file for 5 GHz band.
 
 Code:
 ```
-sudo nano /etc/hostapd/hostapd.conf
+sudo nano /etc/hostapd/hostapd-5g.conf
 ```
 File contents
 ```
-# /etc/hostapd/hostapd.conf
+# /etc/hostapd/hostapd-5g.conf
 # Documentation: https://w1.fi/cgit/hostap/plain/hostapd/hostapd.conf
 # 2021-05-20
 
 # Defaults:
-# SSID: myAP
-# PASSPHRASE: myPW1234
+# SSID: myPI-5g
+# PASSPHRASE: raspberry
 # Band: 5g
 # Channel: 36
 # Country: US
@@ -206,7 +229,7 @@ ctrl_interface=/var/run/hostapd
 ctrl_interface_group=0
 
 # change as desired
-ssid=myAP
+ssid=myPI-5g
 
 # change as required
 country_code=US
@@ -231,7 +254,7 @@ fragm_threshold=2346
 
 # security
 # change wpa_passphrase as desired
-wpa_passphrase=myPW1234
+wpa_passphrase=raspberry
 auth_algs=1
 ignore_broadcast_ssid=0
 # wpa=2 is required for WPA2 and WPA3 (read the docs)
@@ -345,7 +368,79 @@ vht_oper_centr_freq_seg0_idx=42
 #tx_queue_data0_cwmax=7
 #tx_queue_data0_burst=1.5
 
-# end of hostapd.conf
+# end of hostapd-5g.conf
+```
+-----
+
+Create the 2g hostapd configuration file.
+```
+$ sudo nano /etc/hostapd/hostapd-2g.conf
+```
+File contents
+```
+# /etc/hostapd/hostapd-2g.conf
+# Documentation: https://w1.fi/cgit/hostap/plain/hostapd/hostapd.conf
+# 2021-04-07
+
+# Defaults:
+# SSID: myPI-2g
+# PASSPHRASE: raspberry
+# Band: 2g
+# Channel: 6
+# Country: US
+
+# needs to match your system
+interface=wlan1
+
+bridge=br0
+driver=nl80211
+ctrl_interface=/var/run/hostapd
+ctrl_interface_group=0
+
+# change as desired
+ssid=myPI-2g
+
+# change as required
+country_code=US
+
+# 2g (b/g/n)
+hw_mode=g
+channel=6
+
+beacon_int=100
+dtim_period=2
+max_num_sta=32
+rts_threshold=2347
+fragm_threshold=2346
+send_probe_response=1
+
+# security
+auth_algs=1
+macaddr_acl=0
+#ignore_broadcast_ssid=0
+wpa=2
+wpa_pairwise=CCMP
+# Change as desired
+wpa_passphrase=raspberry
+# WPA-2 AES
+wpa_key_mgmt=WPA-PSK
+# WPA-3 SAE
+#wpa_key_mgmt=SAE
+#wpa_group_rekey=1800
+rsn_pairwise=CCMP
+# ieee80211w=2 is required for WPA-3 SAE
+#ieee80211w=2
+# If parameter is not set, 19 is the default value.
+#sae_groups=19 20 21 25 26
+#sae_require_mfp=1
+# If parameter is not 9 set, 5 is the default value.
+#sae_anti_clogging_threshold=10
+
+# IEEE 802.11n
+ieee80211n=1
+wmm_enabled=1
+
+# End of hostapd-2g.conf
 ```
 -----
 
@@ -357,21 +452,49 @@ Code:
 ```
 sudo nano /etc/default/hostapd
 ```
-Add to bottom of file
+Dual band option: Add to bottom of file
 ```
-DAEMON_CONF="/etc/hostapd/hostapd.conf"
+DAEMON_CONF="/etc/hostapd/hostapd-5g.conf /etc/hostapd/hostapd-2g.conf"
+DAEMON_OPTS="-d -K -f /home/<your_home>/hostapd.log"
+```
+Single band option: Add to bottom of file
+```
+DAEMON_CONF="/etc/hostapd/hostapd-5g.conf"
 DAEMON_OPTS="-d -K -f /home/<your_home>/hostapd.log"
 ```
 -----
 
-Block the eth0 and wlan0 interfaces from being processed, and let dhcpcd
+Modify hostapd.service file.
+```
+$ sudo cp /usr/lib/systemd/system/hostapd.service /etc/systemd/system/hostapd.service
+```
+```
+$ sudo nano /etc/systemd/system/hostapd.service
+```
+Dual band option: Change the 'Environment=' line and 'ExecStart=' line to the following
+```
+Environment=DAEMON_CONF="/etc/hostapd/hostapd-5g.conf /etc/hostapd/hostapd-2g.conf"
+ExecStart=/usr/sbin/hostapd -B -P /run/hostapd.pid -B $DAEMON_OPTS $DAEMON_CONF
+```
+Single band option: Change the 'Environment=' line and 'ExecStart=' line to the following
+```
+Environment=DAEMON_CONF="/etc/hostapd/hostapd-5g.conf"
+ExecStart=/usr/sbin/hostapd -B -P /run/hostapd.pid -B $DAEMON_OPTS $DAEMON_CONF
+```
+-----
+
+Block the eth0, wlan0 qnd wlan1 interfaces from being processed, and let dhcpcd
 configure only br0 via DHCP.
 
 Code:
 ```
 sudo nano /etc/dhcpcd.conf
 ```
-Add the following line above the first `interface xxx` line, if any
+Add the following line above the first `interface xxx` line, if any, for dual band setup
+```
+denyinterfaces eth0 wlan0 wlan1
+```
+Add the following line above the first `interface xxx` line, if any, for single band setup
 ```
 denyinterfaces eth0 wlan0
 ```

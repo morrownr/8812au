@@ -97,18 +97,6 @@ The follow site provides links to adapters that support WPA3-SAE: [USB-WIFI](htt
 
 -----
 
-Determine name and state of the network interfaces.
-
-Code:
-```
-ip a
-```
-Note: If the interface names are not `eth0`, `wlan0` and `wlan1`,
-then the interface names used in your system will have to replace
-`eth0`, `wlan0` and `wlan1` for the remainder of this document.
-
------
-
 Update system.
 
 Code:
@@ -175,6 +163,35 @@ dtoverlay=disable-wifi
 over_voltage=1
 arm_freq=1600
 ```
+-----
+
+Reboot system.
+
+Code:
+```
+$ sudo reboot
+```
+-----
+
+Determine name and state of the network interfaces.
+
+Code:
+```
+ip a
+```
+You may need to additionally run the follow commands in order to
+determine which adapter has which interface name.
+
+Code:
+```
+iw list
+
+iw dev
+```
+Note: If the interface names are not `eth0`, `wlan0` and `wlan1`,
+then the interface names used in your system will have to replace
+`eth0`, `wlan0` and `wlan1` for the remainder of this document.
+
 -----
 
 Install needed package. Website - [hostapd](https://w1.fi/hostapd/)
@@ -566,7 +583,7 @@ Ensure WiFi radio not blocked.
 
 Code:
 ```
-$ sudo rfkill unblock wlan
+sudo rfkill unblock wlan
 ```
 -----
 
@@ -574,7 +591,7 @@ Reboot system.
 
 Code:
 ```
-$ sudo reboot
+sudo reboot
 ```
 -----
 
@@ -590,7 +607,7 @@ Restart systemd-networkd service.
 
 Code:
 ```
-$ sudo systemctl restart systemd-networkd
+sudo systemctl restart systemd-networkd
 ```
 -----
 
@@ -598,9 +615,9 @@ Check status of the services.
 
 Code:
 ```
-$ systemctl status hostapd
+systemctl status hostapd
 
-$ systemctl status systemd-networkd
+systemctl status systemd-networkd
 ```
 -----
 

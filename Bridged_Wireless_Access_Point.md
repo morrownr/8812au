@@ -1,6 +1,6 @@
-2021-05-24 - Modifications and testing in progress.
+2021-05-27 - Modifications and testing in progress.
 
-## Bridged Wireless Access Point - RasPiOS
+## Bridged Wireless Access Point
 
 A bridged wireless access point (aka Dumb AP) works within an existing
 ethernet network to add WiFi capability where it does not exist or to
@@ -23,9 +23,15 @@ WPA3-SAE will not work with Realtek 88xx chipset based USB WiFi adapters.
 
 WPA3-SAE will work with Mediatek 761x chipset based USB WiFI adapters.
 
+Note: This guide uses systemd-networkd for network management. If your Linux
+distro uses Network Manager or Netplan, they must be disabled. Sections that
+explain how to do this are located near the end of this document. Please go
+to and follow the appropriate section now, if required, before continuing with
+this setup guide.
+
 -----
 
-2021-05-22
+2021-05-27
 
 #### Tested Setup
 
@@ -83,8 +89,8 @@ when the adapter is set to support 2.4 GHz band:
 ```
 rtw_vht_enable=1 rtw_switch_usb_mode=2
 ```
-Note: For USB3 adapters based on Mediatek mt7612ux chipsets, the following module
-parameter may be needed for best performance:
+Note: For USB3 adapters based on Mediatek mt7612u or my7612un chipsets, the
+following module parameter may be needed for best performance:
 ```
 disable_usb_sg=1
 ```
@@ -165,6 +171,20 @@ arm_freq=1600
 ```
 -----
 
+Enable predictable network interface names
+
+Note: While this step is optional, problems can arise without it, especially on
+dual band setups. Some operating systems have this setting on by default but not
+the Raspberry Pi OS.
+
+Code:
+```
+sudo raspi-config
+```
+Select: Advanced options > A4 Network Interface Names > Yes
+
+-----
+
 Reboot system.
 
 Code:
@@ -179,8 +199,8 @@ Code:
 ```
 ip a
 ```
-You may need to additionally run the follow commands in order to
-determine which adapter has which interface name.
+You may need to additionally run the following commands in order to
+determine which adapter, in a dual band setup, has which interface name.
 
 Code:
 ```
@@ -295,39 +315,33 @@ wpa_key_mgmt=WPA-PSK
 # if parameter is not 9 set, 5 is the default value.
 #sae_anti_clogging_threshold=10
 
-# Note: Capabilities can vary even between adapters with the same chipset
+# Note: Capabilities can vary even between adapters with the same chipset.
+#
+# Note: Only one ht_capab= line and one vht_capab= should be active. The
+# content of these lines is determined by the capabilities of your adapter.
 #
 # IEEE 802.11n
 ieee80211n=1
 wmm_enabled=1
 #
-# Note: Only one ht_capab= line and one vht_capab= should be active. The
-# content of these lines is determined by the capabilities of your adapter.
+# mt7612u - mt7610u
+#ht_capab=[HT40+][HT40-][GF][SHORT-GI-20][SHORT-GI-40]
 #
 # rtl8812au - rtl8811au -  rtl8812bu - rtl8811cu - rtl8814au
-# band 1 - 2g - 20 MHz channel width
-#ht_capab=[SHORT-GI-20][MAX-AMSDU-7935]
-# band 2 - 5g - 40 MHz channel width
 ht_capab=[HT40+][HT40-][SHORT-GI-20][SHORT-GI-40][MAX-AMSDU-7935]
-#
-# mt7612u
-# to support 20 MHz channel width on 11n
-#ht_capab=[LDPC][SHORT-GI-20][TX-STBC][RX-STBC1]
-# to support 40 MHz channel width on 11n
-#ht_capab=[LDPC][HT40+][HT40-][GF][SHORT-GI-20][SHORT-GI-40][TX-STBC][RX-STBC1]
 #
 
 # IEEE 802.11ac
 ieee80211ac=1
 #
+# mt7610u
+#vht_capab=[SHORT-GI-80][MAX-A-MPDU-LEN-EXP3][RX-ANTENNA-PATTERN][TX-ANTENNA-PATTERN]
+# mt7612u
+#vht_capab=[RXLDPC][SHORT-GI-80][TX-STBC-2BY1][RX-STBC-1][MAX-A-MPDU-LEN-EXP3][RX-ANTENNA-PATTERN][TX-ANTENNA-PATTERN]
+#
 # rtl8812au - rtl8811au -  rtl8812bu - rtl8811cu - rtl8814au
-# band 2 - 5g - 80 MHz channel width
 vht_capab=[MAX-MPDU-11454][SHORT-GI-80][HTC-VHT]
 # Note: [TX-STBC-2BY1] causes problems
-#
-# mt7612u
-# band 2 - 5g - 80 MHz channel width on 11ac
-#vht_capab=[RXLDPC][SHORT-GI-80][TX-STBC-2BY1][RX-STBC-1][MAX-A-MPDU-LEN-EXP3][RX-ANTENNA-PATTERN][TX-ANTENNA-PATTERN]
 #
 # Required for 80 MHz width channel operation on band 2 - 5g
 vht_oper_chwidth=1
@@ -429,7 +443,7 @@ dtim_period=2
 max_num_sta=32
 rts_threshold=2347
 fragm_threshold=2346
-send_probe_response=1
+#send_probe_response=1
 
 # security
 auth_algs=1
@@ -456,6 +470,15 @@ rsn_pairwise=CCMP
 # IEEE 802.11n
 ieee80211n=1
 wmm_enabled=1
+#
+# Note: Only one ht_capab= line and one vht_capab= should be active. The
+# content of these lines is determined by the capabilities of your adapter.
+#
+# mt7612u - mt7610u
+#ht_capab=[HT40+][HT40-][GF][SHORT-GI-20][SHORT-GI-40]
+#
+# rtl8812au - rtl8811au -  rtl8812bu - rtl8811cu - rtl8814au
+ht_capab=[HT40+][HT40-][SHORT-GI-20][SHORT-GI-40][MAX-AMSDU-7935]
 
 # End of hostapd-2g.conf
 ```
@@ -599,6 +622,8 @@ End of installation.
 
 -----
 
+-----
+
 Notes:
 
 -----
@@ -655,4 +680,49 @@ Code:
 sudo systemctl status iperf3
 ```
 
+-----
+
+Disable NetworkManager
+
+If running the Desktop version of Ubuntu:
+
+Disable and mask NetworkManager service.
+```
+$ sudo systemctl disable NetworkManager-wait-online
+
+$ sudo systemctl disable NetworkManager-dispatcher
+
+$ sudo systemctl mask networkd-dispatcher
+
+$ sudo systemctl disable NetworkManager
+
+$ sudo systemctl mask NetworkManager
+
+# sudo reboot
+```
+
+-----
+
+Disable Netplan
+
+If running the Server version of Ubuntu:
+
+Disable and mask networkd-dispatcher.
+
+Note: we are activating /etc/network/interfaces
+```
+$ sudo apt-get install ifupdown
+
+$ sudo systemctl stop networkd-dispatcher
+
+$ sudo systemctl disable networkd-dispatcher
+
+$ sudo systemctl mask networkd-dispatcher
+```
+Purge netplan.
+```
+$ sudo apt-get purge nplan netplan.io
+
+$ sudo reboot
+```
 -----

@@ -41,7 +41,7 @@ Raspberry Pi OS (2021-03-04) (32 bit) (kernel 5.10.17-v7l+)
 
 Ethernet connection providing internet
 
-USB WiFi Adapter
+USB WiFi Adapter(s)
 
 [Case](https://www.amazon.com/dp/B07X8RL8SL)
 
@@ -173,8 +173,8 @@ arm_freq=1600
 
 Enable predictable network interface names
 
-Note: While this step is optional, problems can arise without it, especially on
-dual band setups. Some operating systems have this setting on by default but not
+Note: While this step is optional, problems can arise without it on dual band
+setups. Some operating systems have this capability enabled by default but not
 the Raspberry Pi OS.
 
 Code:
@@ -684,45 +684,56 @@ sudo systemctl status iperf3
 
 Disable NetworkManager
 
-If running the Desktop version of Ubuntu:
+Note: For systems not running the Gnome desktop, purging Network Manager
+is the easiest solution.
 
-Disable and mask NetworkManager service.
+Code:
 ```
-$ sudo systemctl disable NetworkManager-wait-online
+sudo apt purge network-manager
+```
+Note: For systems running the Gnome desktop, use the following.
 
-$ sudo systemctl disable NetworkManager-dispatcher
+Code:
+```
+sudo systemctl stop NetworkManager.service
+sudo systemctl disable NetworkManager.service
 
-$ sudo systemctl mask networkd-dispatcher
+sudo systemctl stop NetworkManager-wait-online.service
+sudo systemctl disable NetworkManager-wait-online.service
 
-$ sudo systemctl disable NetworkManager
+sudo systemctl stop NetworkManager-dispatcher.service
+sudo systemctl disable NetworkManager-dispatcher.service
 
-$ sudo systemctl mask NetworkManager
+sudo systemctl stop network-manager.service
+sudo systemctl disable network-manager.service
 
-# sudo reboot
+sudo reboot
 ```
 
 -----
 
 Disable Netplan
 
-If running the Server version of Ubuntu:
+Note: Netplan is the default network manager on Ubuntu server.
 
 Disable and mask networkd-dispatcher.
 
 Note: we are activating /etc/network/interfaces
+
+Code:
 ```
-$ sudo apt-get install ifupdown
+sudo apt-get install ifupdown
 
-$ sudo systemctl stop networkd-dispatcher
-
-$ sudo systemctl disable networkd-dispatcher
-
-$ sudo systemctl mask networkd-dispatcher
+sudo systemctl stop networkd-dispatcher
+sudo systemctl disable networkd-dispatcher
+sudo systemctl mask networkd-dispatcher
 ```
 Purge netplan.
-```
-$ sudo apt-get purge nplan netplan.io
 
-$ sudo reboot
+Code:
+```
+sudo apt-get purge nplan netplan.io
+
+sudo reboot
 ```
 -----

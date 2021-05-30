@@ -1,18 +1,30 @@
-## Monitor Mode using `iw` and `ip`
+## Monitor Mode Operation and Testing
 
-2021-02-19
+2021-05-15
+
+Tested with Kali Linux (amd64) and an Alfa AWUS036ACM (mt7612u) adapter.
+
+2021-04-23
+
+Tested with Raspberry Pi OS (arm32) and an Alfa AWUS036ACHM (mt7610u) adapter.
+
+2021-05-28
+
+Tested with Linux Mint 20.1 and a USB WiFi adapter based on the rtl8814au chipset.
 
 -----
-### Enter Monitor Mode
 
-Start by making sure the system recognizes the WiFi interface
+Update system
 ```
-$ iw dev
+$ sudo apt update
+$ sudo apt full-upgrade
+$ sudo reboot
 ```
-Note: The output shows the WiFi interface name and the current
-mode among other things. The interface name may be something like
-`wlx00c0cafre8ba` and is required for many of the below commands.
 
+Rename the interface to mon0
+```
+sudo ip link set wlan0 name mon0
+```
 
 Take the interface down
 ```

@@ -1,4 +1,4 @@
-2021-05-27 - Modifications and testing in progress.
+2021-05-30 - Modifications and testing in progress.
 
 ## Bridged Wireless Access Point
 
@@ -49,6 +49,8 @@ USB WiFi Adapter(s)
 
 [Power Supply](https://www.amazon.com/dp/B08C9VYLLK)
 
+[SD Card](https://www.amazon.com/Samsung-Endurance-32GB-Micro-Adapter/dp/B07B98GXQT)
+
 Note: I use the case upside down. There are several little things that
 work better with the case upside down and no negatives that I can find.
 
@@ -63,7 +65,7 @@ power up to well over 800 mA of power depending on the adapter. The Raspberry
 Pi 3B, 3B+ and 4B USB subsystems are only able to supple a total of 1200
 mA of power to all attached devices.
 
-Note: The Alfa AWUS036ACM adapter, mt7612u based adapter, requests a maximum
+Note: The Alfa AWUS036ACM adapter, a mt7612u based adapter, requests a maximum
 of 400 mA from the USB subsystem during initialization. Testing with a meter
 shows actual usage of 360 mA during heavy load and usage of 180 mA during
 light loads. This is much lower power usage than most AC1200 class adapters
@@ -205,7 +207,8 @@ determine which adapter, in a dual band setup, has which interface name.
 Code:
 ```
 iw list
-
+```
+```
 iw dev
 ```
 Note: If the interface names are not `eth0`, `wlan0` and `wlan1`,
@@ -228,7 +231,8 @@ Raspberry Pi boots.
 Code:
 ```
 sudo systemctl unmask hostapd
-
+```
+```
 sudo systemctl enable hostapd
 ```
 -----
@@ -246,40 +250,31 @@ File contents
 ```
 # /etc/hostapd/hostapd-5g.conf
 # Documentation: https://w1.fi/cgit/hostap/plain/hostapd/hostapd.conf
-# 2021-05-20
+# 2021-05-30
 
 # Defaults:
 # SSID: myPI-5g
-# PASSPHRASE: raspberry
-# Band: 5g
+ssid=myPI-5g
+# PASSPHRASE: myPW1234
+wpa_passphrase=myPW1234
+# Band: a ( a = 5g - a/n/ac, g = 2g -b/g/n )
+hw_mode=a
 # Channel: 36
+channel=36
 # Country: US
-
-# needs to match wireless interface in your system
+country_code=US
+# WiFi interface
 interface=wlan0
-
-# needs to match bridge interface name in your system
+# Bridge interface
 bridge=br0
 
 driver=nl80211
 ctrl_interface=/var/run/hostapd
 ctrl_interface_group=0
 
-# change as desired
-ssid=myPI-5g
-
-# change as required
-country_code=US
-
 # enable DFS channels
 ieee80211d=1
 ieee80211h=1
-
-# a = 5g (a/n/ac)
-# g = 2g (b/g/n)
-hw_mode=a
-channel=36
-#channel=149
 
 beacon_int=100
 dtim_period=2
@@ -290,8 +285,6 @@ fragm_threshold=2346
 #send_probe_response=1
 
 # security
-# change wpa_passphrase as desired
-wpa_passphrase=raspberry
 auth_algs=1
 ignore_broadcast_ssid=0
 # wpa=2 is required for WPA2 and WPA3 (read the docs)
@@ -404,14 +397,16 @@ vht_oper_centr_freq_seg0_idx=42
 -----
 
 Create the 2g hostapd configuration file.
+
+Code:
 ```
-$ sudo nano /etc/hostapd/hostapd-2g.conf
+sudo nano /etc/hostapd/hostapd-2g.conf
 ```
 File contents
 ```
 # /etc/hostapd/hostapd-2g.conf
 # Documentation: https://w1.fi/cgit/hostap/plain/hostapd/hostapd.conf
-# 2021-04-07
+# 2021-05-30
 
 # Defaults:
 # SSID: myPI-2g
@@ -471,14 +466,64 @@ rsn_pairwise=CCMP
 ieee80211n=1
 wmm_enabled=1
 #
-# Note: Only one ht_capab= line and one vht_capab= should be active. The
-# content of these lines is determined by the capabilities of your adapter.
+# Note: Only one ht_capab= line should be active. The content of these lines is
+# determined by the capabilities of your adapter.
+#
+# ar9271
+#ht_capab=[HT40+][HT40-][SHORT-GI-20][SHORT-GI-40][RX-STBC1][DSSS_CCK-40]
 #
 # mt7612u - mt7610u
 #ht_capab=[HT40+][HT40-][GF][SHORT-GI-20][SHORT-GI-40]
 #
 # rtl8812au - rtl8811au -  rtl8812bu - rtl8811cu - rtl8814au
 ht_capab=[HT40+][HT40-][SHORT-GI-20][SHORT-GI-40][MAX-AMSDU-7935]
+
+# Event logger - as desired
+#logger_syslog=-1
+#logger_syslog_level=2
+#logger_stdout=-1
+#logger_stdout_level=2
+
+# WMM - as desired
+#uapsd_advertisement_enabled=1
+#wmm_ac_bk_cwmin=4
+#wmm_ac_bk_cwmax=10
+#wmm_ac_bk_aifs=7
+#wmm_ac_bk_txop_limit=0
+#wmm_ac_bk_acm=0
+#wmm_ac_be_aifs=3
+#wmm_ac_be_cwmin=4
+#wmm_ac_be_cwmax=10
+#wmm_ac_be_txop_limit=0
+#wmm_ac_be_acm=0
+#wmm_ac_vi_aifs=2
+#wmm_ac_vi_cwmin=3
+#wmm_ac_vi_cwmax=4
+#wmm_ac_vi_txop_limit=94
+#wmm_ac_vi_acm=0
+#wmm_ac_vo_aifs=2
+#wmm_ac_vo_cwmin=2
+#wmm_ac_vo_cwmax=3
+#wmm_ac_vo_txop_limit=47
+#wmm_ac_vo_acm=0
+
+# TX queue parameters - as desired
+#tx_queue_data3_aifs=7
+#tx_queue_data3_cwmin=15
+#tx_queue_data3_cwmax=1023
+#tx_queue_data3_burst=0
+#tx_queue_data2_aifs=3
+#tx_queue_data2_cwmin=15
+#tx_queue_data2_cwmax=63
+#tx_queue_data2_burst=0
+#tx_queue_data1_aifs=1
+#tx_queue_data1_cwmin=7
+#tx_queue_data1_cwmax=15
+#tx_queue_data1_burst=3.0
+#tx_queue_data0_aifs=1
+#tx_queue_data0_cwmin=3
+#tx_queue_data0_cwmax=7
+#tx_queue_data0_burst=1.5
 
 # End of hostapd-2g.conf
 ```
@@ -492,6 +537,8 @@ Code:
 ```
 sudo nano /etc/default/hostapd
 ```
+Select one of the following options
+
 Dual band option: Add to bottom of file
 ```
 DAEMON_CONF="/etc/hostapd/hostapd-5g.conf /etc/hostapd/hostapd-2g.conf"
@@ -505,12 +552,16 @@ DAEMON_OPTS="-d -K -f /home/<your_home>/hostapd.log"
 -----
 
 Modify hostapd.service file.
+
+Code:
 ```
-$ sudo cp /usr/lib/systemd/system/hostapd.service /etc/systemd/system/hostapd.service
+sudo cp /usr/lib/systemd/system/hostapd.service /etc/systemd/system/hostapd.service
 ```
 ```
-$ sudo nano /etc/systemd/system/hostapd.service
+sudo nano /etc/systemd/system/hostapd.service
 ```
+Select one of the following options
+
 Dual band option: Change the 'Environment=' line and 'ExecStart=' line to the following
 ```
 Environment=DAEMON_CONF="/etc/hostapd/hostapd-5g.conf /etc/hostapd/hostapd-2g.conf"

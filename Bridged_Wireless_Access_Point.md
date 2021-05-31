@@ -31,17 +31,17 @@ this setup guide.
 
 -----
 
-2021-05-27
+2021-05-31
 
 #### Tested Setup
 
-Raspberry Pi 4B (4gb)
+[Raspberry Pi 4B (4gb)](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/)
 
-Raspberry Pi OS (2021-03-04) (32 bit) (kernel 5.10.17-v7l+)
+[Raspberry Pi OS (2021-03-04) (32 bit) (kernel 5.10.17-v7l+)](https://www.raspberrypi.org/software/operating-systems/#raspberry-pi-os-32-bit)
 
 Ethernet connection providing internet
 
-USB WiFi Adapter(s)
+[USB WiFi Adapter(s)](https://github.com/morrownr/USB-WiFi)
 
 [Case](https://www.amazon.com/dp/B07X8RL8SL)
 
@@ -191,7 +191,7 @@ Reboot system.
 
 Code:
 ```
-$ sudo reboot
+sudo reboot
 ```
 -----
 
@@ -252,16 +252,15 @@ File contents
 # Documentation: https://w1.fi/cgit/hostap/plain/hostapd/hostapd.conf
 # 2021-05-30
 
-# Defaults:
-# SSID: myPI-5g
+# SSID
 ssid=myPI-5g
-# PASSPHRASE: myPW1234
+# PASSPHRASE
 wpa_passphrase=myPW1234
-# Band: a ( a = 5g - a/n/ac, g = 2g -b/g/n )
+# Band: a = 5g (a/n/ac), g = 2g (b/g/n)
 hw_mode=a
-# Channel: 36
+# Channel
 channel=36
-# Country: US
+# Country
 country_code=US
 # WiFi interface
 interface=wlan0
@@ -272,7 +271,6 @@ driver=nl80211
 ctrl_interface=/var/run/hostapd
 ctrl_interface_group=0
 
-# enable DFS channels
 ieee80211d=1
 ieee80211h=1
 
@@ -336,13 +334,13 @@ ieee80211ac=1
 vht_capab=[MAX-MPDU-11454][SHORT-GI-80][HTC-VHT]
 # Note: [TX-STBC-2BY1] causes problems
 #
-# Required for 80 MHz width channel operation on band 2 - 5g
+# Required for 80 MHz width channel operation
 vht_oper_chwidth=1
 #
-# Use the next line with channel 36  (36 + 6 = 42) band 2 - 5g
+# Use the next line with channel 36  (36 + 6 = 42)
 vht_oper_centr_freq_seg0_idx=42
 #
-# Use the next line with channel 149 (149 + 6 = 155) band 2 - 5g
+# Use the next line with channel 149 (149 + 6 = 155)
 #vht_oper_centr_freq_seg0_idx=155
 
 # Event logger - as desired
@@ -408,30 +406,24 @@ File contents
 # Documentation: https://w1.fi/cgit/hostap/plain/hostapd/hostapd.conf
 # 2021-05-30
 
-# Defaults:
-# SSID: myPI-2g
-# PASSPHRASE: raspberry
-# Band: 2g
-# Channel: 6
-# Country: US
-
-# needs to match your system
+# SSID
+ssid=myPI-2g
+# PASSPHRASE
+wpa_passphrase=myPW1234
+# Band: a = 5g (a/n/ac), g = 2g (b/g/n)
+hw_mode=g
+# Channel
+channel=6
+# Country
+country_code=US
+# WiFi interface
 interface=wlan1
-
+# Bridge interface
 bridge=br0
+
 driver=nl80211
 ctrl_interface=/var/run/hostapd
 ctrl_interface_group=0
-
-# change as desired
-ssid=myPI-2g
-
-# change as required
-country_code=US
-
-# 2g (b/g/n)
-hw_mode=g
-channel=6
 
 beacon_int=100
 dtim_period=2
@@ -443,11 +435,9 @@ fragm_threshold=2346
 # security
 auth_algs=1
 macaddr_acl=0
-#ignore_broadcast_ssid=0
+ignore_broadcast_ssid=0
 wpa=2
 wpa_pairwise=CCMP
-# Change as desired
-wpa_passphrase=raspberry
 # WPA-2 AES
 wpa_key_mgmt=WPA-PSK
 # WPA-3 SAE
@@ -544,9 +534,14 @@ Dual band option: Add to bottom of file
 DAEMON_CONF="/etc/hostapd/hostapd-5g.conf /etc/hostapd/hostapd-2g.conf"
 DAEMON_OPTS="-d -K -f /home/<your_home>/hostapd.log"
 ```
-Single band option: Add to bottom of file
+Single band option for 5g: Add to bottom of file
 ```
 DAEMON_CONF="/etc/hostapd/hostapd-5g.conf"
+DAEMON_OPTS="-d -K -f /home/<your_home>/hostapd.log"
+```
+Single band option for 2g: Add to bottom of file
+```
+DAEMON_CONF="/etc/hostapd/hostapd-2g.conf"
 DAEMON_OPTS="-d -K -f /home/<your_home>/hostapd.log"
 ```
 -----
@@ -567,9 +562,14 @@ Dual band option: Change the 'Environment=' line and 'ExecStart=' line to the fo
 Environment=DAEMON_CONF="/etc/hostapd/hostapd-5g.conf /etc/hostapd/hostapd-2g.conf"
 ExecStart=/usr/sbin/hostapd -B -P /run/hostapd.pid -B $DAEMON_OPTS $DAEMON_CONF
 ```
-Single band option: Change the 'Environment=' line and 'ExecStart=' line to the following
+Single band option for 5g: Change the 'Environment=' line and 'ExecStart=' line to the following
 ```
 Environment=DAEMON_CONF="/etc/hostapd/hostapd-5g.conf"
+ExecStart=/usr/sbin/hostapd -B -P /run/hostapd.pid -B $DAEMON_OPTS $DAEMON_CONF
+```
+Single band option for 2g: Change the 'Environment=' line and 'ExecStart=' line to the following
+```
+Environment=DAEMON_CONF="/etc/hostapd/hostapd-2g.conf"
 ExecStart=/usr/sbin/hostapd -B -P /run/hostapd.pid -B $DAEMON_OPTS $DAEMON_CONF
 ```
 -----
@@ -692,7 +692,8 @@ Check status of the services.
 Code:
 ```
 systemctl status hostapd
-
+```
+```
 systemctl status systemd-networkd
 ```
 -----
@@ -747,17 +748,29 @@ Note: For systems running the Gnome desktop, use the following.
 Code:
 ```
 sudo systemctl stop NetworkManager.service
+```
+```
 sudo systemctl disable NetworkManager.service
-
+```
+```
 sudo systemctl stop NetworkManager-wait-online.service
+```
+```
 sudo systemctl disable NetworkManager-wait-online.service
-
+```
+```
 sudo systemctl stop NetworkManager-dispatcher.service
+```
+```
 sudo systemctl disable NetworkManager-dispatcher.service
-
+```
+```
 sudo systemctl stop network-manager.service
+```
+```
 sudo systemctl disable network-manager.service
-
+```
+```
 sudo reboot
 ```
 
@@ -774,9 +787,14 @@ Note: we are activating /etc/network/interfaces
 Code:
 ```
 sudo apt-get install ifupdown
-
+```
+```
 sudo systemctl stop networkd-dispatcher
+```
+```
 sudo systemctl disable networkd-dispatcher
+```
+```
 sudo systemctl mask networkd-dispatcher
 ```
 Purge netplan.
@@ -784,7 +802,8 @@ Purge netplan.
 Code:
 ```
 sudo apt-get purge nplan netplan.io
-
+```
+```
 sudo reboot
 ```
 -----

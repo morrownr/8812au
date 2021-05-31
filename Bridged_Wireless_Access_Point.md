@@ -37,7 +37,7 @@ this setup guide.
 
 Raspberry Pi 4B (4gb)
 
-Raspberry Pi OS (2021-03-04) (32 bit) (kernel 5.10.17-v7l+)
+Raspberry Pi OS (2021-05-07) (32 bit) (kernel 5.10.17-v7l+)
 
 Ethernet connection providing internet
 

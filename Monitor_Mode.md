@@ -4,7 +4,7 @@
 ### For Debian based Linux Distros such as Raspberry Pi OS, Kali and Ubuntu
 -----
 
-Update system (if needed)
+Update system
 ```
 sudo apt update
 ```
@@ -16,14 +16,14 @@ sudo reboot
 ```
 -----
 
-Ensure WiFi radio is not blocked (if needed)
+Ensure WiFi radio is not blocked
 ```
 sudo rfkill unblock wlan
 ```
 
 -----
 
-Install the aircrack-ng package (if needed)
+Install the aircrack-ng package
 ```
 sudo apt install aircrack-ng
 ```
@@ -47,7 +47,8 @@ Option 2, another way that works for me on Linux Mint and Ubuntu:
 
 Note: I use multiple wifi adapters in my system and I need to stay connected
 to the internet while testing drivers. This option works well for me and allows
-me to stay connected.
+me to stay connected by allowing Network Manager to continue managing wlan1
+while wlan0 is used for monitor mode.
 
 Ensure Network Manager doesn't cause problems
 ```
@@ -60,6 +61,7 @@ unmanaged-devices=interface-name:mon0;interface-name:mon1
 ```
 Note: The above tells Network Manager to leave the mon0 and mon1 interfaces
 alone.
+
 -----
 
 ### Change to monitor mode

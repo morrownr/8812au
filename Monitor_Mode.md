@@ -76,9 +76,16 @@ Take the interface down
 sudo ip link set wlan0 down
 ```
 
+Option for Reaktek drivers
+
 Rename the interface to mon0
 ```
 sudo ip link set wlan0 name mon0
+```
+
+Option for Mediatek or Atheros drivers
+```
+sudo iw phy phy0 interface add mon0 type monitor
 ```
 
 Set monitor mode

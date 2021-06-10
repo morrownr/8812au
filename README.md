@@ -21,7 +21,7 @@
   * IBSS
   * Managed
   * AP (see *Bridged Wireless Access Point* located in the main directory of this repo)
-  * Monitor (see *Monitor_Mode.md* located in the main directory of this repo)
+  * Monitor
   * P2P-client
   * P2P-GO
 - USB mode control
@@ -29,33 +29,10 @@
 - LED control
 - Power saving control
 - VHT control (allows 80 MHz channel width in AP mode)
+- SU Beamformee and SU Beamformer
+- MU Beamformee
 
-FAQ:
-
-Question: Does WPA3 work with this driver?
-
-Answer: No, WPA3 does not work with this driver. If you need a comparable adapter
-that does support WPA3, I suggest an Alfa AWUS036ACM (mt7612u chipset) or a
-Alfa AWUS036ACHM (mt7610u chipset). You can get more information and links to
-these adapters at the following site:
-
-https://github.com/morrownr/USB-WiFi
-
-Question: What interface combinations does this driver support?
-
-Answer: None. Realtek out-of-kernel drivers, including this driver, do not
-support interface combinations. If you need support for interface combinations,
-I suggest adapters based on the Mediatek mt7612u and mt7610u chipsets. You can
-get more information and links at the following site:
-
-https://github.com/morrownr/USB-WiFi
-
-Question: What extended features does this driver support?
-
-Answer: None. For extended features, you need an adapter that uses Mediatek
-drivers. You can get more information and links at the following site:
-
-https://github.com/morrownr/USB-WiFi
+A FAQ is available near the end of this document.
 
 ### Compatible CPUs
 
@@ -126,9 +103,7 @@ Note: Some adapter makers change the chipsets in their products while keeping th
 
 The installation instructions are for the novice user. Experienced users are welcome to alter the installation to meet their needs.
 
-Temporary internet access is required for installation. There are numerous ways to enable temporary internet access depending on your hardware and situation. [One method is to use tethering from a phone.](https://www.makeuseof.com/tag/how-to-tether-your-smartphone-in-linux)
-
-Another method to enable temporary internet access is to keep a [wifi adapter that uses an in-kernel driver](https://github.com/morrownr/USB-WiFi) in your toolkit.
+Temporary internet access is required for installation. There are numerous ways to enable temporary internet access depending on your hardware and situation. [One method is to use tethering from a phone.](https://www.makeuseof.com/tag/how-to-tether-your-smartphone-in-linux). Another method to enable temporary internet access is to keep a [wifi adapter that uses an in-kernel driver](https://github.com/morrownr/USB-WiFi) in your toolkit.
 
 You will need to use the terminal interface. The quick way to open a terminal: Ctrl+Alt+T (hold down on the Ctrl and Alt keys then press the T key)
 
@@ -136,7 +111,7 @@ DKMS is used for the installation. DKMS is a system utility which will automatic
 
 It is recommended that you do not delete the driver directory after installation as the directory contains information and scripts that you may need in the future.
 
-Note: There is no need to disable Secure Mode to install this driver. If Secure Mode is properly setup on your system, this installation will support it.
+There is no need to disable Secure Mode to install this driver. If Secure Mode is properly setup on your system, this installation will support it.
 
 ### Installation Steps
 
@@ -175,11 +150,19 @@ Step 3: Install the required packages (select the option for the OS you are usin
     $ sudo apt-get install -y dkms git
 ```
 ```
-    Option for Arch or Manjaro
+    Options for Arch or Manjaro
+
+    1) if using pacman
 
     $ sudo pacman -S --noconfirm linux-headers dkms git
 ```
-Note regarding Arch and Manjaro: if you are asked to choose a provider, make sure to choose the one that corresponds to your version of the linux kernel (for example, ```linux510-headers``` for Linux kernel version 5.10) if you install the incorrect version, you'll have to uninstall it and reinstall the correct version.
+Note: If you are asked to choose a provider, make sure to choose the one that corresponds to your version of the linux kernel (for example, ```linux510-headers``` for Linux kernel version 5.10) if you install the incorrect version, you'll have to uninstall it and reinstall the correct version.
+```
+    2) if using an AUR helper like paru or yay
+
+    $ paru -S rtl8814au-dkms-git
+```
+Note: Make sure to uninstall any existing driver installations from other installation method. If the installation fails and its cause is related to AUR's BUILDPKG script, please address the issue first to the package maintainer at https://aur.archlinux.org/packages/rtl8814au-dkms-git/.
 
 ```
     Option for Fedora
@@ -216,7 +199,7 @@ Run a preparation script
 
     $ ./raspi64.sh
 ```
-Step 9: Run the installation script (For automated builds - for example an RPM package or an image - use _NoPrompt_ as an option)
+Step 9: Run the installation script (For automated builds, use _NoPrompt_ as an option)
 ```bash
 $ sudo ./install-driver.sh [NoPrompt]
 ```
@@ -247,6 +230,8 @@ Note: This script should be used in the following situations:
 - a fresh start with default settings is needed
 - a new version of the driver needs to be installed
 - a major operating system upgrade is going to be applied
+
+Note: This script removes everything that has been installed, included the directory that contains the downloaded source.
 
 Step 1: Open a terminal (Ctrl+Alt+T)
 
@@ -344,3 +329,34 @@ $ sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
 3. Press ctrl-x followed by 'y' and enter to save the file.
 
 4. Reboot
+
+-----
+
+### FAQ:
+
+Question: Does WPA3 work with this driver?
+
+Answer: No, WPA3 does not work with this driver. If you need a AC class adapter
+that does support WPA3, I suggest an Alfa AWUS036ACM (mt7612u chipset) or a
+Alfa AWUS036ACHM (mt7610u chipset). You can get more information and links to
+these adapters at the following site:
+
+https://github.com/morrownr/USB-WiFi
+
+Question: What interface combinations does this driver support?
+
+Answer: None. Realtek out-of-kernel drivers, including this driver, do not
+support interface combinations. If you need support for interface combinations,
+I suggest adapters based on the Mediatek mt7612u and mt7610u chipsets. You can
+get more information and links at the following site:
+
+https://github.com/morrownr/USB-WiFi
+
+Question: What extended features does this driver support?
+
+Answer: None. For extended features, you need an adapter that uses Mediatek
+drivers. You can get more information and links at the following site:
+
+https://github.com/morrownr/USB-WiFi
+
+-----

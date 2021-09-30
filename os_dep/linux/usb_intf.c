@@ -82,18 +82,17 @@ static void rtw_dev_shutdown(struct device *dev)
 
 #if (LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 23))
 /* Some useful macros to use to create struct usb_device_id */
-#define USB_DEVICE_ID_MATCH_VENDOR			 0x0001
-#define USB_DEVICE_ID_MATCH_PRODUCT			 0x0002
-#define USB_DEVICE_ID_MATCH_DEV_LO			 0x0004
-#define USB_DEVICE_ID_MATCH_DEV_HI			 0x0008
-#define USB_DEVICE_ID_MATCH_DEV_CLASS			 0x0010
-#define USB_DEVICE_ID_MATCH_DEV_SUBCLASS		 0x0020
-#define USB_DEVICE_ID_MATCH_DEV_PROTOCOL		 0x0040
-#define USB_DEVICE_ID_MATCH_INT_CLASS			 0x0080
-#define USB_DEVICE_ID_MATCH_INT_SUBCLASS		 0x0100
-#define USB_DEVICE_ID_MATCH_INT_PROTOCOL		 0x0200
-#define USB_DEVICE_ID_MATCH_INT_NUMBER		 0x0400
-
+#define USB_DEVICE_ID_MATCH_VENDOR		0x0001
+#define USB_DEVICE_ID_MATCH_PRODUCT		0x0002
+#define USB_DEVICE_ID_MATCH_DEV_LO		0x0004
+#define USB_DEVICE_ID_MATCH_DEV_HI		0x0008
+#define USB_DEVICE_ID_MATCH_DEV_CLASS		0x0010
+#define USB_DEVICE_ID_MATCH_DEV_SUBCLASS	0x0020
+#define USB_DEVICE_ID_MATCH_DEV_PROTOCOL	0x0040
+#define USB_DEVICE_ID_MATCH_INT_CLASS		0x0080
+#define USB_DEVICE_ID_MATCH_INT_SUBCLASS	0x0100
+#define USB_DEVICE_ID_MATCH_INT_PROTOCOL	0x0200
+#define USB_DEVICE_ID_MATCH_INT_NUMBER		0x0400
 
 #define USB_DEVICE_ID_MATCH_INT_INFO \
 	(USB_DEVICE_ID_MATCH_INT_CLASS | \
@@ -181,7 +180,6 @@ static struct usb_device_id rtw_usb_id_tbl[] = {
 	{USB_DEVICE(0x2357, 0x010D), .driver_info = RTL8812}, /* TP-Link - Archer T4U AC1300 */
 	{USB_DEVICE(0x2357, 0x010E), .driver_info = RTL8812}, /* TP-Link - Archer T4UH AC1300 */
 	{USB_DEVICE(0x2357, 0x010F), .driver_info = RTL8812}, /* TP-Link - T4UHP */
-	{USB_DEVICE(0x2357, 0x0122), .driver_info = RTL8812}, /* TP-Link - T4UHP (other) */
 	{USB_DEVICE(0x20F4, 0x805B), .driver_info = RTL8812}, /* TRENDnet - TEW-805UB */
 	{USB_DEVICE(0x0411, 0x025D), .driver_info = RTL8812}, /* Buffalo - WI-U3-866D */
 	{USB_DEVICE(0x050D, 0x1109), .driver_info = RTL8812}, /* Belkin F9L1109 - SerComm */
@@ -216,7 +214,6 @@ static struct usb_device_id rtw_usb_id_tbl[] = {
 	{USB_DEVICE(0x0BDA, 0xA811), .driver_info = RTL8821}, /* GMYLE - AC450 */
 	{USB_DEVICE(0x3823, 0x6249), .driver_info = RTL8821}, /* Obihai - OBiWiFi */
 	{USB_DEVICE(0x2357, 0x011E), .driver_info = RTL8821}, /* TP Link - T2U Nano */
-	{USB_DEVICE(0x2357, 0x0122), .driver_info = RTL8821}, /* TP Link - T2U Nano */
 	{USB_DEVICE(0x2357, 0x0120), .driver_info = RTL8821}, /* TP Link - T2U Plus */
 	{USB_DEVICE(0x2357, 0x011F), .driver_info = RTL8821}, /* TP-Link - Archer AC600 T2U Nano */
 	{USB_DEVICE(0x20f4, 0x804b), .driver_info = RTL8821}, /* TRENDnet  */

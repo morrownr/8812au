@@ -214,7 +214,7 @@ $ sudo reboot
 
 ### Driver Options
 
-A file called `8812au.conf` will be installed in `/etc/modeprob.d` by default.
+A file called `8812au.conf` will be installed in `/etc/modeprobe.d` by default.
 
 `/etc/modprobe.d/8812au.conf`
 

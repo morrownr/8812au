@@ -1,11 +1,19 @@
-News: A new version of this driver is now available. Testing has shown it to be a solid driver.
-The driver located here will be discontinued in the near future so please transition to the
-new driver as you are able to do so. 
+News: A new version of this driver is now available. Testing has shown the new
+driver to be a very solid driver in managed and master modes but additional
+testing and work is needed on monitor mode. Monitor mode works but there are
+some quirks. It may be an issue of documentation or there may need to be code
+changes. The work is ongoing. You are invited to help test and break in the new 
+driver: [8812au-20210629](https://github.com/morrownr/8812au-20210629/blob/main/README.md)
 
-[8812au-8812au-20210629](https://github.com/morrownr/8812au-20210629/blob/main/README.md)
+The plan is to discontinue this driver by the end of December 2021. This URL 
+will then be used to provide basic chipset information and a link to the new
+driver so this URL is a good permanent bookmark. Please transition to the new
+driver as you are able to do so. Regards. Nick
 
 -----
+
 ##### [Click for USB WiFi Adapter Information for Linux](https://github.com/morrownr/USB-WiFi)
+
 -----
 
 ### 8812au ( 8812au.ko ) :rocket:
@@ -48,7 +56,7 @@ A FAQ is available at the end of this document.
 ### Compatible Kernels
 
 - Kernels: 2.6.24 - 5.8 (Realtek)
-- Kernels: 5.9 - 5.13 (community support)
+- Kernels: 5.9 - 5.14 (community support)
 
 ### Tested Linux Distributions
 

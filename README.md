@@ -2,7 +2,7 @@ News: A new version of this driver is now available. Testing has shown the new
 driver to be a very solid driver in managed, master and monitor modes You are
 invited to help test and break in the new driver:
 
-[8812au-20210629](https://github.com/morrownr/8812au-20210629/blob/main/README.md)
+[8812au-20210629](https://github.com/morrownr/8812au-20210629)
 
 The plan is to discontinue this driver by the end of December 2021. This URL 
 will then be used to provide a link to the new driver so this URL is a good

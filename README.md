@@ -18,4 +18,4 @@ Regards,
 
 Nick
 
-P.S. The purpose of this repo is to serve as a permanent link to the most current Linux driver for USB WiFi adapters based on the rtl8811au and rtl8821au chipsets.
+P.S. The purpose of this repo is to serve as a permanent link to the most current Linux driver for USB WiFi adapters based on the rtl8812au chipset.

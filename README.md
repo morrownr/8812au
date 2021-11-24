@@ -14,8 +14,10 @@ https://github.com/morrownr/8812au-20210629
 
 I hope you enjoy the driver and look forward to your comments and suggestions.
 
+Issues, Discussions and Pull Requests are not monitored in this repo, please use those capabilities in the repo linked above.
+
 Regards,
 
 Nick
 
-P.S. The purpose of this repo is to serve as a permanent link to the most current Linux driver for USB WiFi adapters based on the rtl8812au chipset.
+P.S. The purpose of this repo is to serve as a permanent link to the most current Linux driver(s) for USB WiFi adapters based on the rtl8812au chipset.
